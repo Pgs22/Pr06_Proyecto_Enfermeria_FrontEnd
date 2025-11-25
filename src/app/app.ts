@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
@@ -8,5 +8,5 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.css'
 })
 export class App {
-  protected readonly title = signal('Pr06_Proyecto_Enfermeria_FrontEnd');
+  title = 'Gestión de Enfermeros';
 }

@@ -1,0 +1,24 @@
+
+  h1 {
+    color: black;
+  }
+  img {
+    max-width: 30vh;
+    height: auto;
+	margin-top: 20px;
+    margin-left: 20px;
+  }	
+  li {
+    color: gray;
+    padding: 8px;
+  }
+  a {
+    color: darkblue;
+  }
+  .toggleList {
+    margin-top: 20px;
+  display: block;
+  clear: both; /* ensure it drops below floated or inline images */
+  margin-left: 20px; /* align with image */
+
+  }

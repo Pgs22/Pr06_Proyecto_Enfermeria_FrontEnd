@@ -1,0 +1,18 @@
+<a routerLink="">Home</a>
+
+<h1>Lista de Enfermeros</h1>
+<button class="toggleList" (click)="toggleList()">{{ showList ? 'Hide nurses' : 'Show nurses' }}</button>
+@if (showList) {
+<div>
+  <ul>
+    @for (nurse of nurses; track $index) {
+    <li>
+      {{ nurse.id }} - {{ nurse.name }} ({{ nurse.email }})
+    </li>
+    } @empty {
+    <li>No Nurses</li>
+    }
+  </ul>
+</div>
+}
+<img src="img/Joker.jpeg" alt="Nurse Joker Image">

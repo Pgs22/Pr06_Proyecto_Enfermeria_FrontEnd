@@ -20,6 +20,12 @@ export class Home implements OnInit{
     this.upasswd= params.get('upasswd')||"";
     this.titol="Benvingut "+this.user;
     });
+
+  }
+  
+  getNumDiaSetmana(){
+    let d = new Date();
+    return d.getDay()
   }
 
 }

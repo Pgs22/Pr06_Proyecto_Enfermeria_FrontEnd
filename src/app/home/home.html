@@ -1,6 +1,20 @@
 <p>Bienvenido a la HOME de CatClean</p>
-<h1>{{titol}} </h1>
+<h1>{{ titol }} </h1>
 <a routerLink="/home/" a> HOME </a>
 <button type="button" class="btn btn-primary"> boton </button>
-
+<div class="card">
+    <img class="card-img-top" src="img/inici.jpg" alt="Title" />
+    <div class="card-body">
+        <h4 class="card-title">Title</h4>
+        <p class="card-text">Text</p>
+        @switch (getNumDiaSetmana()) {
+            @case (1) { <p>Dilluns</p> }
+            @case (2) { <p>Dimarts</p> }
+            @case (3) { <p>Dimecres</p> }
+            @case (4) { <p>Dijous</p> }
+            @case (5) { <p>Dvendres</p> }
+            @default { <p>Es cap de setmana</p> }
+        }
+    </div>
+</div>
 

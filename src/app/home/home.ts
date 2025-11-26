@@ -11,6 +11,7 @@ export class Home implements OnInit{
   titol= "Benvingut!";
   user="user";
   upasswd="upasswd";
+  showDay = false;
   constructor(private _router: Router,
   private _activRoute: ActivatedRoute) { }
 
@@ -18,11 +19,15 @@ export class Home implements OnInit{
   this._activRoute.paramMap.subscribe(params=>{
     this.user= params.get('user')||"";
     this.upasswd= params.get('upasswd')||"";
-    this.titol="Benvingut "+this.user;
+    this.titol="Welcome "+this.user+"!";
+
     });
 
   }
-  
+  showDayWeek(){
+    this.showDay =true;
+  }
+
   getNumDiaSetmana(){
     let d = new Date();
     return d.getDay()

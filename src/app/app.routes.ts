@@ -1,13 +1,17 @@
-import { Routes } from '@angular/router';
-import { NurseFind } from './nurse-find/nurse-find';
+import { NurseList } from './nurse-list/nurse-list';
 import { App } from './app';
-import path from 'path';
+import { NurseFind } from './nurse-find/nurse-find';
+import { Routes } from '@angular/router';
 
 export const routes: Routes = [
-    {
-        path: '',
-        component: App
-        },
+  {
+    path: '',
+    component: App
+  },
+  {
+    path: 'nurselist',
+    component: NurseList
+  },
     // {
     //     path: 'home',
     //     component: App

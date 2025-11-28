@@ -1,0 +1,27 @@
+<div id="wrapper">
+    <div id="form-box">
+        <h3>Nurse Login</h3>
+        <img id="form-img" src="img/nurse_login.png" width="160">
+        @if (submit) {
+            @for (msg of login_message; track $index) {
+                <p id="msg" [ngClass]="message_type">{{ msg }}</p>
+            }
+        }
+        <form (ngSubmit)="handleFormSubmit()">
+            <label class="form-labels">
+                E-Mail:
+                <input name="email" class="form-inputs" [(ngModel)]="email" type="email">
+            </label>
+            <br>
+            <label class="form-labels">
+                Password:
+                <input name="password" class="form-inputs" [(ngModel)]="password" type="password">
+            </label>
+            <br>
+            <div id="buttons">
+                <button class="form-buttons" type="submit">Log in</button>
+                <a routerLink="/"><button class="form-buttons">Home</button></a>
+            </div>
+        </form>
+    </div>
+</div>

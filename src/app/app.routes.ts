@@ -2,6 +2,7 @@ import { NurseList } from './nurse-list/nurse-list';
 import { App } from './app';
 import { NurseFind } from './nurse-find/nurse-find';
 import { Routes } from '@angular/router';
+import { NurseLogin } from './nurse-login/nurse-login';
 
 export const routes: Routes = [
   {path:'',
@@ -24,4 +25,10 @@ export const routes: Routes = [
       path: 'nurse-find',
       component: NurseFind
   },
+  {
+      path: 'nurse-login',
+      component: NurseLogin
+  }
+
+  
 ];

@@ -12,9 +12,7 @@ import { CommonModule } from '@angular/common';
 	styleUrls: ['./nurse-find.css']
 })
 export class NurseFind {
-	// imageUrl = 'public/img/icon.jpg';
-	title = 'Nurse Find Component';
-
+	title = 'Hospital Management - Nurse Find Component';
 	username: string = '';
 	searchResults: Array<{ name: string }> = [];
 

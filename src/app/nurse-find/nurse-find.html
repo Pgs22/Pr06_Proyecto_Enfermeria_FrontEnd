@@ -1,48 +1,40 @@
 <div class="container mt-5">
   <div class="row justify-content-center">
     <div class="col-md-6">
-
       <div class="card shadow-sm">
         <div class="card-body text-center">
-
           <h2 class="mb-3">Find nurses by name</h2>
           <img src="img/icon.jpg" alt="nurse ilustration" class="result-img me-200" />
-
-
-          <!-- Link a Home -->
-          <br>
           <a class="btn btn-primary w-100 mb-3" routerLink="/">Home</a>
-
           <!-- Campo de búsqueda -->
           <div class="mb-3">
-            <input type="text" class="form-control" placeholder="Write the name here" [(ngModel)]="username" />
+            <input type="text" class="form-control" placeholder="Write the name here" [(ngModel)]="username"/>
           </div>
-
           <button type="button" class="btn btn-success w-100" (click)="onSearch()">
             Buscar
           </button>
           <!-- Resultados de búsqueda -->
-          <div class="search-results mt-4" *ngIf="searchResults.length > 0">
-            <h4 class="text-center mb-3">Resultados:</h4>
+          @if (searchResults.length > 0) {
+            <div class="search-results mt-4">
+              <h4 class="text-center mb-3">Resultados:</h4>
 
-            <ul class="list-group">
-              <li class="list-group-item" *ngFor="let nurse of searchResults">
-                {{ nurse.name }}
-              </li>
-            </ul>
-          </div>
-
+              <ul class="list-group">
+                @for (nurse of searchResults; track nurse.name) {
+                  <li class="list-group-item">
+                    {{ nurse.name }}
+                  </li>
+                }
+              </ul>
+            </div>
+          }
           <!-- Mensaje si no hay resultados -->
-          <div class="mt-4 text-center" *ngIf="searchResults.length === 0 && username.trim()">
-            <p class="text-muted">No se encontraron enfermeras con ese nombre.</p>
-          </div>
+          @if (searchResults.length === 0 && username.trim()) {
+            <div class="mt-4 text-center">
+              <p class="text-muted">No se encontraron enfermeras con ese nombre.</p>
+            </div>
+          }
         </div>
       </div>
-
-      <div class="search-results mt-4">
-
-      </div>
-
     </div>
   </div>
 </div>

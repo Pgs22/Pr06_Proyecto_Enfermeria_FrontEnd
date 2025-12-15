@@ -1,44 +1,41 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterLink } from "@angular/router";
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { NurseService, Nurse } from '../services/nurse.service';
 
 
 @Component({
 	selector: 'app-nurse-find',
 	standalone: true,
-	imports: [RouterLink, FormsModule, CommonModule],
+	imports: [RouterLink, FormsModule, CommonModule,],
 	templateUrl: './nurse-find.html',
 	styleUrls: ['./nurse-find.css']
 })
-export class NurseFind {
+export class NurseFind implements OnInit {
 	title = 'Hospital Management - Nurse Find Component';
 	username: string = '';
-	searchResults: Array<{ name: string }> = [];
+	nurses: Nurse[] = [];
+	searchResults: Nurse[] = [];
+
+	constructor(private nurseService: NurseService) { }
+	ngOnInit(): void {
+		this.nurses = this.nurseService.getNurses();
+		console.log("Datos cargados del servicio:", this.nurses);
+	}
 
 	onSearch() {
-		const name = this.username?.trim();
-		if (!name) {
+		const searchTerm = this.username?.trim().toLowerCase();
+		if (!searchTerm) {
 			this.searchResults = [];
 			return;
-
 		}
-		const lowerName = name.toLowerCase();
-		console.log("Buscando a: " + this.username);
 
-		// Array de enfermeras demo (los datos que sirven de prueba)
-		const nurses = [
-			{ name: 'Ana Martínez' },
-			{ name: 'Ana López', },
-			{ name: 'Ana Sofía Herrera', },
+		console.log("Buscando a: " + searchTerm);
 
-			// otro nombre para contraste
-			{ name: 'María González', }
-		];
-
-		// extra: mostrar por coincidencia
-		this.searchResults = nurses.filter(n =>
-			n.name.toLowerCase().includes(lowerName)
+		// Filtramos la lista completa (this.nurses)
+		this.searchResults = this.nurses.filter(nurse =>
+			(nurse.name || '').toLowerCase().includes(searchTerm)
 		);
 	}
 }

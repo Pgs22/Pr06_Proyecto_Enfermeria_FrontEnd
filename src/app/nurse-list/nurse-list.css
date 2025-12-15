@@ -1,24 +1,142 @@
 
-  h1 {
-    color: black;
-  }
-  img {
-    max-width: 30vh;
-    height: auto;
-	margin-top: 20px;
-    margin-left: 20px;
-  }	
-  li {
-    color: gray;
-    padding: 8px;
-  }
-  a {
-    color: darkblue;
-  }
-  .toggleList {
+/* Modernized nurse list styles */
+
+h1 {
+  color: #0b2545;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  font-size: 1.6rem;
+  margin: 12px 0 18px 12px;
+  font-weight: 700;
+}
+
+/* List reset */
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0 12px 24px 12px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
+}
+
+/* Each nurse as a compact card */
+li {
+  background: #ffffff;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  box-shadow: 0 1px 3px rgba(16,24,40,0.06), 0 1px 2px rgba(16,24,40,0.04);
+  transition: transform 160ms ease, box-shadow 160ms ease;
+  color: #334155; /* slate-700 */
+  min-height: 64px;
+}
+
+/* Avatar images: compact and circular */
+li img {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex: 0 0 56px;
+  box-shadow: 0 1px 4px rgba(2,6,23,0.06) inset;
+}
+
+/* Text area inside the card */
+.nurse-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.92rem;
+}
+.nurse-id {
+  font-weight: 600;
+  color: #0f172a; /* darker */
+}
+.nurse-email {
+  font-size: 0.85rem;
+  color: #64748b; /* muted */
+}
+
+a {
+  color: #0b5ed7;
+  text-decoration: none;
+}
+
+/* Primary Home button styling */
+.home-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  margin: 8px 12px 10px 12px;
+  background: linear-gradient(180deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(37,99,235,0.18);
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  border: none;
+  transition: transform 140ms ease, box-shadow 140ms ease, opacity 140ms ease;
+}
+
+.home-btn:active {
+  transform: translateY(0);
+}
+.home-btn:focus {
+  outline: 3px solid rgba(59,130,246,0.22);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-btn { transition: none; }
+}
+
+/* Keep original .toggleList rule intact as requested */
+.toggleList {
     margin-top: 20px;
+    margin-bottom: 20px;
   display: block;
   clear: both; /* ensure it drops below floated or inline images */
   margin-left: 20px; /* align with image */
 
   }
+
+/* Responsive tweak for very small screens */
+@media (max-width: 420px) {
+  li {
+    padding: 10px;
+    gap: 10px;
+  }
+  li img {
+    width: 44px;
+    height: 44px;
+    flex: 0 0 44px;
+  }
+}
+
+/* Joker image styling (decorative) */
+.joker-figure {
+  display: flex;
+  justify-content: left;
+  margin: 18px 0 28px 30px;
+}
+.joker-img {
+  width: 500px;
+  height: 500px;
+  object-fit: cover;
+  border-radius: 14px;
+  box-shadow: 0 8px 20px rgba(2,6,23,0.12);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+  border: 2px solid rgba(11,37,69,0.06);
+}
+
+
+@media (max-width: 480px) {
+  .joker-img {
+    width: 120px;
+    height: 120px;
+  }
+}

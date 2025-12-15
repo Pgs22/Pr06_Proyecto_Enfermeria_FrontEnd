@@ -1,4 +1,4 @@
-<a routerLink="">Home</a>
+<a routerLink="" class="home-btn" aria-label="Inicio">Home</a>
 
 <h1>Lista de Enfermeros</h1>
 <button class="toggleList" (click)="toggleList()">{{ showList ? 'Hide nurses' : 'Show nurses' }}</button>
@@ -7,7 +7,11 @@
   <ul>
     @for (nurse of nurses; track $index) {
     <li>
-      {{ nurse.id }} - {{ nurse.name }} ({{ nurse.email }})
+      <img [src]="nurse.image" alt="{{ nurse.name }}'s image">
+      <div class="nurse-info">
+        <div class="nurse-id">{{ nurse.id }} - {{ nurse.name }}</div>
+        <div class="nurse-email">{{ nurse.email }}</div>
+      </div>
     </li>
     } @empty {
     <li>No Nurses</li>
@@ -15,4 +19,6 @@
   </ul>
 </div>
 }
-<img src="img/Joker.jpeg" alt="Nurse Joker Image">
+<figure class="joker-figure">
+  <img class="joker-img" src="img/Joker.jpeg" alt="Nurse Joker Image">
+</figure>

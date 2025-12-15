@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from "@angular/router";
-
+import { NurseService, Nurse } from '../services/nurse.service';
 
 @Component({
   selector: 'app-nurse-list',
@@ -9,16 +9,20 @@ import { RouterLink } from "@angular/router";
   templateUrl: './nurse-list.html',
   styleUrls: ['./nurse-list.css'],
 })
-export class NurseList {
+export class NurseList implements OnInit {
   showList = true;
+  nurses: Nurse[] = [];
 
-  nurses = [
-    { id: 1, name: 'María López', email: 'maria.lopez@example.com' },
-    { id: 2, name: 'Juan Pérez', email: 'juan.perez@example.com' },
-    { id: 3, name: 'Ana García', email: 'ana.garcia@example.com' }
-  ];
+  constructor(private nurseService: NurseService) {}
 
+ngOnInit(): void {
+    this.nurses = this.nurseService.getNurses().map(n => ({ 
+      ...n,
+      image: (n as any).image 
+    }));
+  }
   toggleList() {
     this.showList = !this.showList;
   }
-}
+
+  }

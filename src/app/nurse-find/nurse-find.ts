@@ -18,13 +18,13 @@ export class NurseFind {
 
 	onSearch() {
 		const name = this.username?.trim();
-		// el if que pide la actividad lo utilizo para verificar si existe una persona con ese nombre
 		if (!name) {
 			this.searchResults = [];
 			return;
 
 		}
 		const lowerName = name.toLowerCase();
+		console.log("Buscando a: " + this.username);
 
 		// Array de enfermeras demo (los datos que sirven de prueba)
 		const nurses = [
@@ -36,7 +36,7 @@ export class NurseFind {
 			{ name: 'María González', }
 		];
 
-		// Filtrar por coincidencia
+		// extra: mostrar por coincidencia
 		this.searchResults = nurses.filter(n =>
 			n.name.toLowerCase().includes(lowerName)
 		);

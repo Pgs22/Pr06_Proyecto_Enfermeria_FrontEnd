@@ -8,7 +8,6 @@ import { NurseService, Nurse } from '../services/nurse.service';
   imports: [CommonModule, RouterLink],
   templateUrl: './nurse-list.html',
   styleUrls: ['./nurse-list.css'],
-  providers: [NurseService]
 })
 export class NurseList implements OnInit {
   showList = true;

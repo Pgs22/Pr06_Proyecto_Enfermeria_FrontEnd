@@ -32,39 +32,17 @@ export class NurseRegister {
   handleFormSubmit() {
     this.submit = true;
     this.register_message = [];
-    let isValid = true;
 
-    // --- 1. Validaciones de Email ---
-    if (this.email.length <= 0) {
-      this.register_message.push('Email cannot be empty.');
-      isValid = false;
-    } else if (!this.validateEmail(this.email)) {      
-      this._nurseService.registerNurse (this.email, this.password);
-    }
-    
-    if (isValid) {
-      this.message_type = 'success';
-      this.register_message = [
-        `Registration successful for: ${this.email}. Redirecting...`
-      ];
+    this._nurseService.registerNurse (this.email, this.password);
+    this.message_type = 'success';
+    this.register_message = [
+      `Registration successful for: ${this.email}. Redirecting...`
+    ];
       
       // En un entorno real, redirigirías al usuario después de un registro exitoso.
       console.log('User registered:', this.email);
     } 
     // Si llegamos aquí y isValid es true, el mensaje ya está configurado como 'success'
-  }
-
-  /**
-   * Valida el formato del email usando una expresión regular.
-   * @param email La cadena de email a validar.
-   * @returns Verdadero si el email tiene un formato válido.
-   */
-  validateEmail(email: string): boolean {
-    return (
-      /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.toLowerCase())
-    );
-
-
-  }
+ 
   
 }

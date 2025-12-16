@@ -7,7 +7,7 @@
                 <p id="msg" [ngClass]="message_type">{{ msg }}</p>
             }
         }
-        <form (ngSubmit)="handleFormSubmit()">
+        <form #nurseLoginForm="ngForm" (ngSubmit)="handleFormSubmit()">
             <label class="form-labels">
                 E-Mail:
                 <input name="email" class="form-inputs" [(ngModel)]="email" type="email">

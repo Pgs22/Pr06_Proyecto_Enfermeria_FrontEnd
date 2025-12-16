@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
 
 export class Nurse {
   id?: number;
@@ -6,6 +7,7 @@ export class Nurse {
   email?: string;
   password?: string;
   image?: string;
+  password?: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -20,5 +22,13 @@ export class NurseService {
     return this.nurses;
   }
 
-  
+  registerNurse(email: string, password: string) {   
+    const newUser: Nurse = {
+      email: email,
+      password: password
+    };
+
+    this.nurses.push(newUser); // Añadir a la lista simulada
+    
+  }
 }

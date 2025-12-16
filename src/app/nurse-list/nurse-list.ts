@@ -13,16 +13,22 @@ export class NurseList implements OnInit {
   showList = true;
   nurses: Nurse[] = [];
 
-  constructor(private nurseService: NurseService) {}
+  constructor(private nurseService: NurseService) { }
 
-ngOnInit(): void {
-    this.nurses = this.nurseService.getNurses().map(n => ({ 
+  ngOnInit(): void {
+    this.nurses = this.nurseService.getNurses().map(n => ({
       ...n,
-      image: (n as any).image 
+      image: (n as any).image
     }));
   }
   toggleList() {
     this.showList = !this.showList;
   }
 
+  refresh() {
+    this.nurses = this.nurseService.getNurses().map(n => ({
+      ...n,
+      image: (n as any).image
+    }));
   }
+}

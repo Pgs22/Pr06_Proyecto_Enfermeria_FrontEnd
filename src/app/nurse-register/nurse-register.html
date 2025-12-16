@@ -15,7 +15,7 @@
                 </div>
             </div>
         }
-        
+        <!--Para ejecutar la funcion handleFormSubmit() en cuanto pulse al botón del formulario-->
         <form (ngSubmit)="handleFormSubmit()">
             
             <div class="mb-3">
@@ -28,6 +28,7 @@
                     class="form-control" 
                     [(ngModel)]="email" 
                     type="email" 
+                    required pattern="[A-Za-z@.]{3,30}"
                     placeholder="Enter your email address"
                     required
                 >
@@ -43,6 +44,7 @@
                     class="form-control" 
                     [(ngModel)]="password" 
                     type="password"
+                    required pattern="[A-Za-z]{3,10}"
                     placeholder="Min. 8 characters"
                     required
                 >
@@ -58,6 +60,7 @@
                     class="form-control" 
                     [(ngModel)]="confirm_password" 
                     type="password"
+                    required pattern="[A-Za-z]{3,10}"
                     placeholder="Please re-enter your password"
                     required
                 >
@@ -71,6 +74,7 @@
                     <i class="bi bi-box-arrow-in-right me-1"></i> Login
                 </a>
             </div>
+
             
         </form>
     </div>

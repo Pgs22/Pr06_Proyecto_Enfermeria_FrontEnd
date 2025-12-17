@@ -7,7 +7,6 @@ export class Nurse {
   email?: string;
   password?: string;
   image?: string;
-  password?: string;
 }
 
 @Injectable({ providedIn: 'root' })

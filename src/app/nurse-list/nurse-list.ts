@@ -18,7 +18,7 @@ export class NurseList implements OnInit {
 ngOnInit(): void {
     this.nurses = this.nurseService.getNurses().map(n => ({ 
       ...n,
-      image: (n as any).image 
+      image: (n as Nurse).image 
     }));
   }
   toggleList() {

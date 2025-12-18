@@ -32,59 +32,56 @@ export class NurseRegister {
    * Performs client-side validations.
    */
   handleFormSubmit() {
-    // 1. Resetear estados cada vez que se pulsa el botón
-    this.register_message = [];
-    this.is_registered_ok = false;
-    this.is_registered_error = false;
-    this.isLoading = true; // Iniciamos feedback de carga
+  // 1. Limpieza total de estados
+  this.register_message = [];
+  this.is_registered_ok = false;
+  this.is_registered_error = false;
+  this.isLoading = true;
 
-    // 2. Definición de Expresiones Regulares (Regex)
-    // Usamos doble \\ para escapar caracteres especiales dentro de strings de TS
-    const emailRegex = new RegExp("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$");
-    const passwordRegex = new RegExp("(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,64}");
+  // 2. Definición de Regex (Usamos el formato de objeto para evitar conflictos de escape)
+  const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i;
+  const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,64}$/;
 
-    // 3. Validaciones manuales adicionales (Segunda capa de seguridad aparte del HTML)
-    if (!emailRegex.test(this.email)) {
-      this.register_message.push('Invalid email format (e.g., name@domain.com).');
-    }
+  // 3. Validaciones lógicas
+  if (!emailRegex.test(this.email)) {
+    this.register_message.push('Invalid email format.');
+  }
 
-    if (!passwordRegex.test(this.password)) {
-      this.register_message.push('Password must be 8-64 chars, include a number, lowercase and uppercase.');
-    }
+  if (!passwordRegex.test(this.password)) {
+    this.register_message.push('Password does not meet security requirements.');
+  }
 
-    if (this.password !== this.confirm_password) {
-      this.register_message.push('Passwords do not match.');
-    }
+  if (this.password !== this.confirm_password) {
+    this.register_message.push('Passwords do not match.');
+  }
 
-    // 4. Si hay errores de validación, detenemos el proceso aquí
-    if (this.register_message.length > 0) {
-      this.is_registered_error = true;
-      this.message_type = 'alert-danger'; // Clase CSS de Bootstrap
-      this.isLoading = false;
-      return; 
-    }
+  // 4. Si hay errores de validación local, mostrar y parar
+  if (this.register_message.length > 0) {
+    this.is_registered_error = true;
+    this.message_type = 'alert-danger';
+    this.isLoading = false;
+    return;
+  }
 
-    // 5. Intento de registro a través del servicio
-    // Como tu servicio es síncrono y devuelve un boolean:
+  // 5. Intento de registro
+  try {
     const success = this._nurseService.registerNurse(this.email, this.password);
 
     if (success) {
-      // CASO ÉXITO
       this.is_registered_ok = true;
-      this.message_type = 'alert-success'; 
-      this.register_message = [`Registration successful for: ${this.email}.`];
-      console.log('User registered in local array:', this.email);
-      
-      // Opcional: Limpiar el formulario tras el éxito
-      // this.email = ''; this.password = ''; this.confirm_password = '';
+      this.message_type = 'alert-success';
+      this.register_message = [`Registration successful for: ${this.email}`];
+      console.log('Success: Nurse added to local array.');
     } else {
-      // CASO ERROR DEL SERVICIO
-      this.is_registered_error = true;
-      this.message_type = 'alert-danger';
-      this.register_message = ['Service error: The email format was rejected by the server.'];
+      throw new Error('Service rejected data');
     }
-
-    this.isLoading = false; // Finalizamos carga
+  } catch (error) {
+    this.is_registered_error = true;
+    this.message_type = 'alert-danger';
+    this.register_message = ['The service is currently unavailable.'];
+  } finally {
+    this.isLoading = false;
   }
+}
 
 }

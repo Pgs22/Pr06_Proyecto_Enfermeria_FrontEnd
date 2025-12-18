@@ -7,7 +7,7 @@ import { NurseService } from '../services/nurse.service';
 
 @Component({
   selector: 'app-nurse-register',
-  //Importamos los modulos que vamos a necesitar
+  //We import the modules we will need
   imports: [CommonModule, RouterLink, FormsModule],
   templateUrl: './nurse-register.html',
   styleUrl: './nurse-register.css',
@@ -16,33 +16,40 @@ export class NurseRegister {
   email = '';
   password = '';
   confirm_password = '';
-
-  // Propiedades para mostrar mensajes
+  is_registered_ok=false;
+  is_registered_error=false;
+  // Properties for displaying messages
   register_message: string[] = [];
-    message_type = ''; 
-    submit = false;
-    isLoading = false;
+  message_type = ''; 
+  isLoading = false;
 
-    constructor( private _nurseService: NurseService) { }
+  constructor( private _nurseService: NurseService) { }
 
   /**
-   * Maneja el envío del formulario de registro.
-   * Realiza validaciones del lado del cliente.
+   * Handles the submission of the registration form.
+   * Performs client-side validations.
    */
   handleFormSubmit() {
-    this.submit = true;
+    // 1. This causes the @if to "turn off" for a moment if there were old messages.
     this.register_message = [];
 
-    this._nurseService.registerNurse (this.email, this.password);
+    // 2. Calling to service
+    if(this._nurseService.registerNurse (this.email, this.password)){
+      this.is_registered_ok=true;
+    }else{
+       this.is_registered_error=true
+    }
+
+    // 3. This causes the @if to "light up" with the new message
     this.message_type = 'success';
     this.register_message = [
       `Registration successful for: ${this.email}. Redirecting...`
     ];
       
-      // En un entorno real, redirigirías al usuario después de un registro exitoso.
+      // Print in console log
       console.log('User registered:', this.email);
     } 
-    // Si llegamos aquí y isValid es true, el mensaje ya está configurado como 'success'
+    // Result 'success'
  
   
 }

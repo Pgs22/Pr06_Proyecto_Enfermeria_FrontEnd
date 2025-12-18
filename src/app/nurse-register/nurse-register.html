@@ -6,16 +6,7 @@
             <img id="form-img" src="img/nurse_register.png" alt="Nurse Icon" class="img-fluid rounded-circle border border-3 border-primary" style="width: 120px; height: 120px; object-fit: cover;">
         </div>
 
-        @if (submit) {
-            <div [ngClass]="['alert', message_type, 'd-flex', 'align-items-center']" role="alert">
-                <i class="bi bi-info-circle-fill me-2"></i> <div>
-                    @for (msg of register_message; track $index) {
-                        <p class="mb-0">{{ msg }}</p>
-                    }
-                </div>
-            </div>
-        }
-        <!--Para ejecutar la funcion handleFormSubmit() en cuanto pulse al botón del formulario-->
+        <!--To execute the function handleFormSubmit() as soon as I press the button on the form -->
         <form (ngSubmit)="handleFormSubmit()">
             
             <div class="mb-3">
@@ -26,12 +17,16 @@
                     id="emailInput"
                     name="email" 
                     class="form-control" 
-                    [(ngModel)]="email" 
+                    [(ngModel)]="email"
+                    #emailRef="ngModel"
                     type="email" 
-                    required pattern="[A-Za-z@.]{3,30}"
-                    placeholder="Enter your email address"
                     required
+                    required pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                    placeholder="usuario@dominio.com"                    
                 >
+                <span class="text-danger" [hidden]="emailRef.valid || emailRef.untouched">
+                    <small>Format of email it isn't valid (for exemple: usuario@dominio.com)</small>
+                </span>
             </div>
             
             <div class="mb-3">
@@ -43,11 +38,15 @@
                     name="password" 
                     class="form-control" 
                     [(ngModel)]="password" 
+                    #passRef="ngModel"
                     type="password"
-                    required pattern="[A-Za-z]{3,10}"
-                    placeholder="Min. 8 characters"
                     required
+                    required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,64}"                    
+                    placeholder="Min. 8 chars, 1 upper, 1 lower, 1 number"                    
                 >
+                <span class="text-danger" [hidden]="passRef.valid || passRef.untouched">
+                    <small>Min. 8 chars, 1 upper, 1 lower and 1 number required.</small>
+                </span>
             </div>
             
             <div class="mb-4">
@@ -59,22 +58,42 @@
                     name="confirm_password" 
                     class="form-control" 
                     [(ngModel)]="confirm_password" 
+                    #confirmRef="ngModel"
                     type="password"
-                    required pattern="[A-Za-z]{3,10}"
-                    placeholder="Please re-enter your password"
                     required
+                    required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,64}"                    
+                    placeholder="Min. 8 chars, 1 upper, 1 lower, 1 number"                    
                 >
+                <span class="text-danger" [hidden]="(confirmRef.valid && confirm_password === password) || confirmRef.untouched">
+                    <small>Passwords do not match.</small>
+                </span>
             </div>
-            
+            <!--Disabled button if password it isn't correct or email is ivalid or confirmation password it isn'n diferent that password-->
             <div class="d-grid gap-2">
-                <button class="btn btn-primary btn-lg" type="submit">
-                    <i class="bi bi-person-plus-fill me-1"></i> Registrar
+                <button 
+                    class="btn btn-primary btn-lg" 
+                    type="submit"
+                    [disabled]="emailRef.invalid || passRef.invalid || password !== confirm_password"
+                >
+                    <i class="bi bi-person-plus-fill me-1"></i> Register
                 </button>
                 <a routerLink="/nurse-login" class="btn btn-outline-secondary">
                     <i class="bi bi-box-arrow-in-right me-1"></i> Login
                 </a>
             </div>
 
+            <!--To prevent an error message from being displayed when entering the first character
+            And configuration on function in nuser-register.ts--> 
+            @if (is_registered_ok) {
+            <div [ngClass]="['alert', message_type, 'd-flex', 'align-items-center']" role="alert">
+                <i class="bi bi-info-circle-fill me-2"></i> 
+                <div>
+                    @for (msg of register_message; track $index) {
+                        <p class="mb-0">{{ msg }}</p>
+                    }
+                </div>
+            </div>
+            }
             
         </form>
     </div>

@@ -20,29 +20,31 @@ export class NurseRegister {
   // Propiedades para mostrar mensajes
   register_message: string[] = [];
     message_type = ''; 
-    submit = false;
     isLoading = false;
 
     constructor( private _nurseService: NurseService) { }
 
   /**
-   * Maneja el envío del formulario de registro.
-   * Realiza validaciones del lado del cliente.
+   * Handles the submission of the registration form.
+   * Performs client-side validations.
    */
   handleFormSubmit() {
-    this.submit = true;
+    // 1. This causes the @if to "turn off" for a moment if there were old messages.
     this.register_message = [];
 
+    // 2. Calling to service
     this._nurseService.registerNurse (this.email, this.password);
+
+    // 3. This causes the @if to "light up" with the new message
     this.message_type = 'success';
     this.register_message = [
       `Registration successful for: ${this.email}. Redirecting...`
     ];
       
-      // En un entorno real, redirigirías al usuario después de un registro exitoso.
+      // Print in console log
       console.log('User registered:', this.email);
     } 
-    // Si llegamos aquí y isValid es true, el mensaje ya está configurado como 'success'
+    // Result 'success'
  
   
 }

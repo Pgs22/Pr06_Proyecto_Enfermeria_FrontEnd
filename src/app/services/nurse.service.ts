@@ -11,6 +11,7 @@ export class Nurse {
 
 @Injectable({ providedIn: 'root' })
 export class NurseService {
+   private _isLoggedIn: boolean = false; 
   private nurses: Nurse[] = [
     { id: 1, name: 'María López', email: 'maria.lopez@example.com', password: 'password1', image: '/img/Maria.png' },
     { id: 2, name: 'Juan Pérez', email: 'juan.perez@example.com', password: 'password2', image: '/img/Juan.png' },
@@ -21,13 +22,26 @@ export class NurseService {
     return this.nurses;
   }
 
-  registerNurse(email: string, password: string) {   
+  registerNurse(email: string, password: string) {
     const newUser: Nurse = {
       email: email,
       password: password
     };
 
     this.nurses.push(newUser); // Añadir a la lista simulada
-    
+
+  }
+
+  // Variable para guardar el estado del logueo + logica
+  loginUser() {
+    this._isLoggedIn = true;
+  }
+
+  logoutUser() {
+    this._isLoggedIn = false;
+  }
+
+  isAuthenticated(): boolean {
+    return this._isLoggedIn;
   }
 }

@@ -12,8 +12,8 @@ import { isEmpty } from 'rxjs';
   styleUrls: ['./nurse-login.css'],
 })
 export class NurseLogin {
- 
- 
+
+
   nurses: Nurse[] = [];
   email: string = '';
   password: string = '';
@@ -26,7 +26,7 @@ export class NurseLogin {
   message_type = 'error'
 
   submit = false;
-  
+
   handleFormSubmit() {
     this.submit = true;
     this.login_message = [];
@@ -63,6 +63,8 @@ export class NurseLogin {
     // Validation success
     this.message_type = 'success';
     this.login_message = ['Welcome back! Logging in...'];
+    this.nurseService.loginUser();
+
     setTimeout(() => {
       this.router.navigate(['/']);
     }, 800);

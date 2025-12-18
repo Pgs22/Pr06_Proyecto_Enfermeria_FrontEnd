@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import{ Router, ActivatedRoute, Params, RouterLink, RouterOutlet} from'@angular/router';
 import { KeyValuePipe } from '@angular/common';
+import { NurseService } from '../services/nurse.service';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +15,8 @@ export class Home implements OnInit{
   upasswd="upasswd";
   showDay = false;
   headNurses = ["Joana", "Paula", "David"];
-  constructor(private _router: Router,
+  
+  constructor(private _router: Router, private nurseService: NurseService,
   private _activRoute: ActivatedRoute) { }
 
   ngOnInit() {
@@ -34,4 +36,11 @@ export class Home implements OnInit{
     return d.getDay()
   }
 
-}
+  get isLogged(): boolean {
+    return this.nurseService.isAuthenticated();
+  }
+
+  onLogout() {
+    this.nurseService.logoutUser();
+      }
+  }

@@ -16,8 +16,10 @@ export class NurseRegister {
   email = '';
   password = '';
   confirm_password = '';
+
   is_registered_ok=false;
   is_registered_error=false;
+
   // Properties for displaying messages
   register_message: string[] = [];
   message_type = ''; 
@@ -30,26 +32,45 @@ export class NurseRegister {
    * Performs client-side validations.
    */
   handleFormSubmit() {
-    // 1. This causes the @if to "turn off" for a moment if there were old messages.
+    // We clear previous statuses and messages
     this.register_message = [];
+    this.is_registered_ok = false;
+    this.is_registered_error = false;
+    this.message_type = 'danger';
 
-    // 2. Calling to service
-    if(this._nurseService.registerNurse (this.email, this.password)){
-      this.is_registered_ok=true;
-    }else{
-       this.is_registered_error=true
+    // Validations definition (Regex)
+    const emailRegex = new RegExp("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$");
+    const passwordRegex = new RegExp("(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,64}");
+
+    // Validations
+    if (!emailRegex.test(this.email)) {
+      this.register_message.push('Invalid email format (e.g., name@domain.com).');
     }
 
-    // 3. This causes the @if to "light up" with the new message
-    this.message_type = 'success';
-    this.register_message = [
-      `Registration successful for: ${this.email}. Redirecting...`
-    ];
-      
-      // Print in console log
+    if (!passwordRegex.test(this.password)) {
+      this.register_message.push('Password must include: 8-64 chars, a number, lowercase and uppercase.');
+    }
+
+    if (this.password !== this.confirm_password) {
+      this.register_message.push('Passwords do not match.');
+    }
+
+    // Block if there are errors
+    if (this.register_message.length > 0) {
+      this.is_registered_error = true;
+      return;
+    }
+
+    // Call for service
+    if (this._nurseService.registerNurse(this.email, this.password)) {
+      this.is_registered_ok = true;
+      this.message_type = 'success';
+      this.register_message = [`Registration successful for: ${this.email}.`];
       console.log('User registered:', this.email);
-    } 
-    // Result 'success'
- 
-  
+    } else {
+      this.is_registered_error = true;
+      this.register_message = ['The service is unavailable. Please try again later.'];
+    }
+  }
+
 }

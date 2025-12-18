@@ -32,45 +32,59 @@ export class NurseRegister {
    * Performs client-side validations.
    */
   handleFormSubmit() {
-    // We clear previous statuses and messages
+    // 1. Resetear estados cada vez que se pulsa el botón
     this.register_message = [];
     this.is_registered_ok = false;
     this.is_registered_error = false;
-    this.message_type = 'danger';
+    this.isLoading = true; // Iniciamos feedback de carga
 
-    // Validations definition (Regex)
+    // 2. Definición de Expresiones Regulares (Regex)
+    // Usamos doble \\ para escapar caracteres especiales dentro de strings de TS
     const emailRegex = new RegExp("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$");
     const passwordRegex = new RegExp("(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,64}");
 
-    // Validations
+    // 3. Validaciones manuales adicionales (Segunda capa de seguridad aparte del HTML)
     if (!emailRegex.test(this.email)) {
       this.register_message.push('Invalid email format (e.g., name@domain.com).');
     }
 
     if (!passwordRegex.test(this.password)) {
-      this.register_message.push('Password must include: 8-64 chars, a number, lowercase and uppercase.');
+      this.register_message.push('Password must be 8-64 chars, include a number, lowercase and uppercase.');
     }
 
     if (this.password !== this.confirm_password) {
       this.register_message.push('Passwords do not match.');
     }
 
-    // Block if there are errors
+    // 4. Si hay errores de validación, detenemos el proceso aquí
     if (this.register_message.length > 0) {
       this.is_registered_error = true;
-      return;
+      this.message_type = 'alert-danger'; // Clase CSS de Bootstrap
+      this.isLoading = false;
+      return; 
     }
 
-    // Call for service
-    if (this._nurseService.registerNurse(this.email, this.password)) {
+    // 5. Intento de registro a través del servicio
+    // Como tu servicio es síncrono y devuelve un boolean:
+    const success = this._nurseService.registerNurse(this.email, this.password);
+
+    if (success) {
+      // CASO ÉXITO
       this.is_registered_ok = true;
-      this.message_type = 'success';
+      this.message_type = 'alert-success'; 
       this.register_message = [`Registration successful for: ${this.email}.`];
-      console.log('User registered:', this.email);
+      console.log('User registered in local array:', this.email);
+      
+      // Opcional: Limpiar el formulario tras el éxito
+      // this.email = ''; this.password = ''; this.confirm_password = '';
     } else {
+      // CASO ERROR DEL SERVICIO
       this.is_registered_error = true;
-      this.register_message = ['The service is unavailable. Please try again later.'];
+      this.message_type = 'alert-danger';
+      this.register_message = ['Service error: The email format was rejected by the server.'];
     }
+
+    this.isLoading = false; // Finalizamos carga
   }
 
 }

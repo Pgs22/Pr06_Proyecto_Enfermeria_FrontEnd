@@ -90,16 +90,16 @@
             <!--To prevent an error message from being displayed when entering the first character
             And configuration on function in nuser-register.ts--> 
 
-            @if (is_registered_ok) {
-                <div [ngClass]="['alert', message_type, 'd-flex', 'align-items-center']" role="alert">
-                    <i class="bi bi-info-circle-fill me-2"></i> 
-                    <div>
-                        @for (msg of register_message; track $index) {
-                            <p class="mb-0">{{ msg }}</p>
-                        }
-                    </div>
+        @if (is_registered_ok || is_registered_error) {
+            <div [ngClass]="['alert', message_type, 'd-flex', 'align-items-center', 'mt-3']" role="alert">
+                <i class="bi" [ngClass]="is_registered_ok ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'"></i> 
+                <div class="ms-2">
+                    @for (msg of register_message; track $index) {
+                        <p class="mb-0">{{ msg }}</p>
+                    }
                 </div>
-            }
+            </div>
+        }
             
         </form>
     </div>

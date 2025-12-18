@@ -9,6 +9,7 @@ import { NurseService, Nurse } from '../services/nurse.service';
   templateUrl: './nurse-list.html',
   styleUrls: ['./nurse-list.css'],
 })
+
 export class NurseList implements OnInit {
   showList = true;
   nurses: Nurse[] = [];
@@ -23,12 +24,5 @@ export class NurseList implements OnInit {
   }
   toggleList() {
     this.showList = !this.showList;
-  }
-
-  refresh() {
-    this.nurses = this.nurseService.getNurses().map(n => ({
-      ...n,
-      image: (n as any).image
-    }));
   }
 }

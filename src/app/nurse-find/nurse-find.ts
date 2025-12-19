@@ -3,6 +3,7 @@ import { RouterLink } from "@angular/router";
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NurseService, Nurse } from '../services/nurse.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -18,8 +19,15 @@ export class NurseFind implements OnInit {
 	nurses: Nurse[] = [];
 	searchResults: Nurse[] = [];
 
-	constructor(private nurseService: NurseService) { }
+	constructor(
+		private nurseService: NurseService,
+    	private router: Router
+	) { }
 	ngOnInit(): void {
+		if (!this.nurseService.isLoggedIn()) {
+      		this.router.navigate(['/']);
+			return;
+    	}
 		this.nurses = this.nurseService.getNurses();
 		console.log("Datos cargados del servicio:", this.nurses);
 	}

@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 export class Nurse {
   id?: number;
@@ -17,6 +18,7 @@ export class Nurse {
 
 @Injectable({ providedIn: 'root' })
 export class NurseService {
+  private platformId = inject(PLATFORM_ID); //detect if is server o browser
    private _isLoggedIn: boolean = false; 
   private nurses: Nurse[] = [
     new Nurse(1,'María López','maria.lopez@example.com','password1','/img/Maria.png' ),
@@ -56,6 +58,14 @@ export class NurseService {
 
   isAuthenticated(): boolean {
     return this._isLoggedIn;
+  }
+
+  isLoggedIn(): boolean {
+    // To prevent listing or searching for nurses unless you log in, access the component's URL directly.
+    if (isPlatformBrowser(this.platformId)) {
+      return !!localStorage.getItem('userToken');
+    }
+    return false; // On the server we always return false
   }
 
 }

@@ -2,30 +2,38 @@
 <div>
     <h2 class="mb-3">List of head nurses</h2>
     <ul>
-    @for (nurse of headNurses | keyvalue; track $index) {
+        @for (nurse of headNurses | keyvalue; track $index) {
         <li>
             {{ $index + 1 }} - {{ nurse.value }}
         </li>
-    } @empty {
+        } @empty {
         <li>There aren't head nurse</li>
-    }
+        }
     </ul>
 </div>
 
 <div class="container-fluid">
     <ul class="nav justify-content-center"> <!--To use horizontal listings, the Bootstrap class-->
-        <li class="nav-item">
-            <a class="nav-link" routerLink="/nurse-login/"> Login </a> <!--For use in the links of the Bootstrap class-->
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" routerLink="/nurse-register/"> Register </a>
-        </li>
+
+        @if (isLogged){
         <li class="nav-item">
             <a class="nav-link" routerLink="/nurse-list/"> List nurses </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" routerLink="/nurse-find/"> Find nurses </a>
         </li>
+        <li class="nav-item">
+            <!-- This functionality have not been finished yet becuase the statment did not ask for it. -->
+            <a class="nav-link" routerLink="/nurse-logout/"> Logout </a>
+        </li>
+        } @else {
+        <li class="nav-item">
+            <a class="nav-link" routerLink="/nurse-login/"> Login </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" routerLink="/nurse-register/"> Register </a>
+        </li>
+        }
     </ul>
 </div>
 
@@ -36,17 +44,15 @@
         <p class="card-text">Click in button:</p>
 
         @if (showDay) {
-            @switch (getNumDiaSetmana()) {
-                @case (1) { <p>Dilluns</p> }
-                @case (2) { <p>Dimarts</p> }
-                @case (3) { <p>Dimecres</p> }
-                @case (4) { <p>Dijous</p> }
-                @case (5) { <p>Dvendres</p> }
-                @default { <p>Es cap de setmana</p> }
-            }
+        @switch (getNumDiaSetmana()) {
+        @case (1) { <p>Dilluns</p> }
+        @case (2) { <p>Dimarts</p> }
+        @case (3) { <p>Dimecres</p> }
+        @case (4) { <p>Dijous</p> }
+        @case (5) { <p>Dvendres</p> }
+        @default { <p>Es cap de setmana</p> }
+        }
         }
     </div>
     <button type="button" class="btn btn-primary" (click)="showDayWeek()">Show day</button>
 </div>
-
-

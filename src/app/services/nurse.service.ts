@@ -17,6 +17,7 @@ export class Nurse {
 
 @Injectable({ providedIn: 'root' })
 export class NurseService {
+   private _isLoggedIn: boolean = false; 
   private nurses: Nurse[] = [
     new Nurse(1,'María López','maria.lopez@example.com','password1','/img/Maria.png' ),
     new Nurse(2,'Juan Pérez','juan.perez@example.com','password2','/img/Juan.png'),
@@ -42,6 +43,17 @@ export class NurseService {
     }
     
     return false;
+
+  loginUser() {
+    this._isLoggedIn = true;
+  }
+
+  logoutUser() {
+    this._isLoggedIn = false;
+  }
+
+  isAuthenticated(): boolean {
+    return this._isLoggedIn;
   }
 
 }

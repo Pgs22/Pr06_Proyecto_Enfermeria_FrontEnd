@@ -32,17 +32,17 @@ export class NurseRegister {
    * Performs client-side validations.
    */
   handleFormSubmit() {
-    // 1. Limpieza total de estados
+    // 1. Total cleanup of states
     this.register_message = [];
     this.is_registered_ok = false;
     this.is_registered_error = false;
     this.isLoading = true;
 
-    // 2. Definición de Regex (Usamos el formato de objeto para evitar conflictos de escape)
+    // 2. Regex definition (We use object format to avoid escape conflicts)
     const emailRegex = /^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$/;
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,64}$/;
 
-    // 3. Validaciones lógicas
+    // 3. Logical validations
     if (!emailRegex.test(this.email)) {
       this.register_message.push('Invalid email format.');
     }
@@ -55,7 +55,7 @@ export class NurseRegister {
       this.register_message.push('Passwords do not match.');
     }
 
-    // 4. Si hay errores de validación local, mostrar y parar
+    // 4. If there are local validation errors, display and stop
     if (this.register_message.length > 0) {
       this.is_registered_error = true;
       this.message_type = 'alert-danger';
@@ -63,7 +63,7 @@ export class NurseRegister {
       return;
     }
 
-    // 5. Intento de registro
+    // 5. Registration attempt
     const success = this._nurseService.registerNurse(this.email, this.password);
 
     if (success) {

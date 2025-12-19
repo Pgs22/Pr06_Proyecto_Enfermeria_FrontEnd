@@ -43,6 +43,7 @@ export class NurseService {
     }
     
     return false;
+  }
 
   loginUser() {
     this._isLoggedIn = true;

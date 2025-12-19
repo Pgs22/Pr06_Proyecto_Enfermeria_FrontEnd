@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
 
 export class Nurse {
   id?: number;
@@ -7,32 +6,44 @@ export class Nurse {
   email?: string;
   password?: string;
   image?: string;
+  constructor( id?: number,  name?: string,  email?: string,  password?: string,  image?: string){
+    this.id=id;
+    this.name=name;
+    this.email=email;
+    this.password=password;
+    this.image=image;
+  }
 }
 
 @Injectable({ providedIn: 'root' })
 export class NurseService {
    private _isLoggedIn: boolean = false; 
   private nurses: Nurse[] = [
-    { id: 1, name: 'María López', email: 'maria.lopez@example.com', password: 'password1', image: '/img/Maria.png' },
-    { id: 2, name: 'Juan Pérez', email: 'juan.perez@example.com', password: 'password2', image: '/img/Juan.png' },
-    { id: 3, name: 'Ana García', email: 'ana.garcia@example.com', password: 'password3', image: '/img/Ana.png' },
+    new Nurse(1,'María López','maria.lopez@example.com','password1','/img/Maria.png' ),
+    new Nurse(2,'Juan Pérez','juan.perez@example.com','password2','/img/Juan.png'),
+    new Nurse(3,'Ana García','ana.garcia@example.com','password3','/img/Ana.png' )
   ];
 
   getNurses(): Nurse[] {
     return this.nurses;
   }
 
-  registerNurse(email: string, password: string) {
-    const newUser: Nurse = {
-      email: email,
-      password: password
-    };
+  registerNurse(email: string, password: string): boolean {
+    const emailPattern = /^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$/;
+    const passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,64}$/;
 
-    this.nurses.push(newUser); // Añadir a la lista simulada
+    if (emailPattern.test(email) && passwordPattern.test(password) ) {
+      const newUser: Nurse = {
+        email: email,
+        password: password
+      };
 
-  }
+      this.nurses.push(newUser); // Add to Array
+      return true;
+    }
+    
+    return false;
 
-  // Variable para guardar el estado del logueo + logica
   loginUser() {
     this._isLoggedIn = true;
   }
@@ -44,4 +55,5 @@ export class NurseService {
   isAuthenticated(): boolean {
     return this._isLoggedIn;
   }
+
 }

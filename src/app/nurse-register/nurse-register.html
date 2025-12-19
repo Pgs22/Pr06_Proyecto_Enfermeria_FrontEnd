@@ -22,7 +22,7 @@
                     #emailRef="ngModel"
                     type="email" 
                     required
-                    required pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                    required pattern="^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
                     placeholder="usuario@dominio.com"                    
                 >
 
@@ -43,7 +43,7 @@
                     #passRef="ngModel"
                     type="password"
                     required
-                    required pattern="^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"                  
+                    required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,64}"                 
                     placeholder="Min. 8 chars, 1 upper, 1 lower, 1 number"                    
                 >
 
@@ -87,8 +87,8 @@
                 </a>
             </div>
 
-            <!--To prevent an error message from being displayed when entering the first character
-            And configuration on function in nuser-register.ts--> 
+            <!--To display an error message if the data is invalid in the second validation, 
+            configure the function that runs when the form is submitted, in nuser-register.ts--> 
 
         @if (is_registered_ok || is_registered_error) {
             <div [ngClass]="['alert', message_type, 'd-flex', 'align-items-center', 'mt-3']" role="alert">

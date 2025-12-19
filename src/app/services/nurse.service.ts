@@ -19,30 +19,29 @@ export class Nurse {
 export class NurseService {
   private nurses: Nurse[] = [
     new Nurse(1,'María López','maria.lopez@example.com','password1','/img/Maria.png' ),
-    new Nurse(2, 'Juan Pérez', 'juan.perez@example.com', 'password2', '/img/Juan.png'),
-    new Nurse(3, 'Ana García', 'ana.garcia@example.com', 'password3', '/img/Ana.png' )
+    new Nurse(2,'Juan Pérez','juan.perez@example.com','password2','/img/Juan.png'),
+    new Nurse(3,'Ana García','ana.garcia@example.com','password3','/img/Ana.png' )
   ];
 
   getNurses(): Nurse[] {
     return this.nurses;
   }
 
-  registerNurse(email: string, password: string) {
-    const emailPattern: string = "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$";
-    const regex = new RegExp(emailPattern);
+  registerNurse(email: string, password: string): boolean {
+    const emailPattern = /^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$/;
+    const passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,64}$/;
 
-    if (regex.test(email)) {
+    if (emailPattern.test(email) && passwordPattern.test(password) ) {
       const newUser: Nurse = {
         email: email,
         password: password
       };
 
-      this.nurses.push(newUser); // Añadir a la lista simulada
+      this.nurses.push(newUser); // Add to Array
       return true;
-    }else{
-      return false;
     }
-
-
+    
+    return false;
   }
+
 }

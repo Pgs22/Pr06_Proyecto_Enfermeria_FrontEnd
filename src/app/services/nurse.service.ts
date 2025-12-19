@@ -58,4 +58,9 @@ export class NurseService {
     return this._isLoggedIn;
   }
 
+  isLoggedIn(): boolean { 
+  // To prevent listing or searching for nurses unless you log in, access the component's URL directly.
+    return !!localStorage.getItem('userToken');
+  }
+
 }

@@ -1,5 +1,6 @@
 import { Component} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+//Para que el register y el login compartan el mismo service y el resto
 import { NurseService } from './services/nurse.service';
 
 @Component({

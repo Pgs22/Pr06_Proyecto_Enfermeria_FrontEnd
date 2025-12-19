@@ -22,7 +22,7 @@ export class NurseList implements OnInit {
 
   ngOnInit(): void {
     if (!this.nurseService.isLoggedIn()) {
-      this.router.navigate(['/home']);
+      this.router.navigate(['/']);
 			return;
     }
     this.nurses = this.nurseService.getNurses().map(n => ({

@@ -45,6 +45,7 @@ export class NurseService {
     return false;
   }
 
+  // 2. Agregamos las funciones de login que venían del main
   loginUser() {
     this._isLoggedIn = true;
   }

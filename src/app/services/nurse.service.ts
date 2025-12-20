@@ -47,11 +47,11 @@ export class NurseService {
     return false;
   }
 
-  // 2. Agregamos las funciones de login que venían del main
   loginUser() {
-    this._isLoggedIn = true;
+  this._isLoggedIn = true;
     if (isPlatformBrowser(this.platformId)) {
-      localStorage.setItem('userToken', '1');
+      // We stored something so that `isLoggedIn()` can find it.
+      localStorage.setItem('userToken', 'true'); 
     }
   }
 

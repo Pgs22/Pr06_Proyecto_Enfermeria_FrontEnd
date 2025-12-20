@@ -37,10 +37,12 @@ export class Home implements OnInit{
   }
 
   get isLogged(): boolean {
-    return this.nurseService.isAuthenticated();
+    //return this.nurseService.isAuthenticated();
+    return this.nurseService.isLoggedIn();
   }
 
   onLogout() {
     this.nurseService.logoutUser();
+    this._router.navigate(['/nurse-login']); //Add
       }
   }

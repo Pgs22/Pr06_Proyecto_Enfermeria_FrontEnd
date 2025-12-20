@@ -7,23 +7,23 @@ export class Nurse {
   email?: string;
   password?: string;
   image?: string;
-  constructor( id?: number,  name?: string,  email?: string,  password?: string,  image?: string){
-    this.id=id;
-    this.name=name;
-    this.email=email;
-    this.password=password;
-    this.image=image;
+  constructor(id?: number, name?: string, email?: string, password?: string, image?: string) {
+    this.id = id;
+    this.name = name;
+    this.email = email;
+    this.password = password;
+    this.image = image;
   }
 }
 
 @Injectable({ providedIn: 'root' })
 export class NurseService {
   private platformId = inject(PLATFORM_ID); //detect if is server o browser
-   private _isLoggedIn: boolean = false; 
+  private _isLoggedIn: boolean = false;
   private nurses: Nurse[] = [
-    new Nurse(1,'María López','maria.lopez@example.com','password1','/img/Maria.png' ),
-    new Nurse(2,'Juan Pérez','juan.perez@example.com','password2','/img/Juan.png'),
-    new Nurse(3,'Ana García','ana.garcia@example.com','password3','/img/Ana.png' )
+    new Nurse(1, 'María López', 'maria.lopez@example.com', 'password1', '/img/Maria.png'),
+    new Nurse(2, 'Juan Pérez', 'juan.perez@example.com', 'password2', '/img/Juan.png'),
+    new Nurse(3, 'Ana García', 'ana.garcia@example.com', 'password3', '/img/Ana.png')
   ];
 
   getNurses(): Nurse[] {
@@ -34,7 +34,7 @@ export class NurseService {
     const emailPattern = /^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$/;
     const passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,64}$/;
 
-    if (emailPattern.test(email) && passwordPattern.test(password) ) {
+    if (emailPattern.test(email) && passwordPattern.test(password)) {
       const newUser: Nurse = {
         email: email,
         password: password
@@ -43,17 +43,23 @@ export class NurseService {
       this.nurses.push(newUser); // Add to Array
       return true;
     }
-    
+
     return false;
   }
 
   // 2. Agregamos las funciones de login que venían del main
   loginUser() {
     this._isLoggedIn = true;
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('userToken', '1');
+    }
   }
 
   logoutUser() {
     this._isLoggedIn = false;
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem('userToken');
+    }
   }
 
   isAuthenticated(): boolean {
@@ -63,9 +69,9 @@ export class NurseService {
   isLoggedIn(): boolean {
     // To prevent listing or searching for nurses unless you log in, access the component's URL directly.
     if (isPlatformBrowser(this.platformId)) {
-      return !!localStorage.getItem('userToken');
+      return this._isLoggedIn || !!localStorage.getItem('userToken');
     }
-    return false; // On the server we always return false
+    return this._isLoggedIn;
   }
 
 }

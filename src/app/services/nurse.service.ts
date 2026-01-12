@@ -1,5 +1,7 @@
 import { Injectable, inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 export class Nurse {
   id?: number;
@@ -26,8 +28,16 @@ export class NurseService {
     new Nurse(3, 'Ana García', 'ana.garcia@example.com', 'password3', '/img/Ana.png')
   ];
 
-  getNurses(): Nurse[] {
-    return this.nurses;
+  constructor(private conexHttp: HttpClient) { }
+  url = "http://localhost:8000/nurse/index";
+
+  /*
+    getNurses(): Nurse[] {
+      return this.nurses;
+    }
+      */
+  getNurses(): Observable<Nurse[]> {
+    return this.conexHttp.get<Nurse[]>(this.url);
   }
 
   registerNurse(email: string, password: string): boolean {
@@ -48,10 +58,10 @@ export class NurseService {
   }
 
   loginUser() {
-  this._isLoggedIn = true;
+    this._isLoggedIn = true;
     if (isPlatformBrowser(this.platformId)) {
       // We stored something so that `isLoggedIn()` can find it.
-      localStorage.setItem('userToken', 'true'); 
+      localStorage.setItem('userToken', 'true');
     }
   }
 

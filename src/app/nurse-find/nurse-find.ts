@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NurseService, Nurse } from '../services/nurse.service';
 import { Router } from '@angular/router';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 
 @Component({
@@ -11,7 +12,8 @@ import { Router } from '@angular/router';
 	standalone: true,
 	imports: [RouterLink, FormsModule, CommonModule,],
 	templateUrl: './nurse-find.html',
-	styleUrls: ['./nurse-find.css']
+	styleUrls: ['./nurse-find.css'],
+	providers: [NurseService]
 })
 export class NurseFind implements OnInit {
 	title = 'Hospital Management - Nurse Find Component';
@@ -21,29 +23,35 @@ export class NurseFind implements OnInit {
 
 	constructor(
 		private nurseService: NurseService,
-    	private router: Router
+		private router: Router,
+		private _exemService: NurseService
 	) { }
 	ngOnInit(): void {
 		if (!this.nurseService.isLoggedIn()) {
-      		this.router.navigate(['/']);
-			return;
-    	}
-		this.nurses = this.nurseService.getNurses();
-		console.log("Datos cargados del servicio:", this.nurses);
-	}
-
-	onSearch() {
-		const searchTerm = this.username?.trim().toLowerCase();
-		if (!searchTerm) {
-			this.searchResults = [];
+			this.router.navigate(['/']);
 			return;
 		}
+		this.nurses = this.nurseService.getNurses()
+			.subscribe(result => {
+				this.nurses = result;
+				console.log(result);
 
-		console.log("Buscando a: " + searchTerm);
+				console.log("Datos cargados del servicio:", this.nurses);
+			}
+}
 
-		// Filtramos la lista completa (this.nurses)
-		this.searchResults = this.nurses.filter(nurse =>
-			(nurse.name || '').toLowerCase().includes(searchTerm)
-		);
-	}
+	// onSearch() {
+	// 	const searchTerm = this.username?.trim().toLowerCase();
+	// 	if (!searchTerm) {
+	// 		this.searchResults = [];
+	// 		return;
+	// 	}
+
+	// 	console.log("Buscando a: " + searchTerm);
+
+	// 	// Filtramos la lista completa (this.nurses)
+	// 	this.searchResults = this.nurses.filter(nurse =>
+	// 		(nurse.name || '').toLowerCase().includes(searchTerm)
+	// 	);
+}
 }

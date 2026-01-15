@@ -1,5 +1,8 @@
 import { Injectable, inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
 
 export class Nurse {
   id?: number;
@@ -18,6 +21,8 @@ export class Nurse {
 
 @Injectable({ providedIn: 'root' })
 export class NurseService {
+  constructor(private http: HttpClient) { }
+  url = "http://localhost:8000/nurse/"
   private platformId = inject(PLATFORM_ID); //detect if is server o browser
   private _isLoggedIn: boolean = false;
   private nurses: Nurse[] = [
@@ -28,6 +33,10 @@ export class NurseService {
 
   getNurses(): Nurse[] {
     return this.nurses;
+  }
+
+  getNursesAjax(): Observable<Nurse[]> {
+    return this.http.get<Nurse[]>(this.url+"index");
   }
 
   registerNurse(email: string, password: string): boolean {

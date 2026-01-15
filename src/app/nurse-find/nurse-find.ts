@@ -23,8 +23,7 @@ export class NurseFind implements OnInit {
 
 	constructor(
 		private nurseService: NurseService,
-		private router: Router,
-		private _exemService: NurseService
+		private router: Router
 	) { }
 
 	ngOnInit(): void {
@@ -33,7 +32,7 @@ export class NurseFind implements OnInit {
 			return;
 		}
 		//this.nurses = this.nurseService.getNurses()
-		this._exemService.getNurses()
+		this.nurseService.getNurses()
 			.subscribe(result => {
 				this.nurses = result;
 				console.log(result);

@@ -38,6 +38,7 @@ export class NurseFind implements OnInit {
 
 				console.log("Datos cargados del servicio:", this.nurses);
 			}
+		}
 }
 
 	// onSearch() {

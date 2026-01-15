@@ -26,33 +26,36 @@ export class NurseFind implements OnInit {
 		private router: Router,
 		private _exemService: NurseService
 	) { }
+
 	ngOnInit(): void {
 		if (!this.nurseService.isLoggedIn()) {
 			this.router.navigate(['/']);
 			return;
 		}
-		this.nurses = this.nurseService.getNurses()
+		//this.nurses = this.nurseService.getNurses()
+		this._exemService.getNurses()
 			.subscribe(result => {
 				this.nurses = result;
 				console.log(result);
 
 				console.log("Datos cargados del servicio:", this.nurses);
 			}
+			);
+	}
+		onSearch() {
+		const searchTerm = this.username?.trim().toLowerCase();
+		if (!searchTerm) {
+			this.searchResults = [];
+			return;
 		}
+
+		console.log("Buscando a: " + searchTerm);
+
+		// Filtramos la lista completa (this.nurses)
+		this.searchResults = this.nurses.filter(nurse =>
+			(nurse.name || '').toLowerCase().includes(searchTerm)
+		);
+	}
 }
 
-	// onSearch() {
-	// 	const searchTerm = this.username?.trim().toLowerCase();
-	// 	if (!searchTerm) {
-	// 		this.searchResults = [];
-	// 		return;
-	// 	}
 
-	// 	console.log("Buscando a: " + searchTerm);
-
-	// 	// Filtramos la lista completa (this.nurses)
-	// 	this.searchResults = this.nurses.filter(nurse =>
-	// 		(nurse.name || '').toLowerCase().includes(searchTerm)
-	// 	);
-}
-}

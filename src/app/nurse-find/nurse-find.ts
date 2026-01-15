@@ -28,8 +28,11 @@ export class NurseFind implements OnInit {
       		this.router.navigate(['/']);
 			return;
     	}
-		this.nurses = this.nurseService.getNurses();
-		console.log("Datos cargados del servicio:", this.nurses);
+		this.nurseService.getNursesAjax()
+		.subscribe(result => {
+			this.nurses = result;
+			console.log(result);
+		});
 	}
 
 	onSearch() {

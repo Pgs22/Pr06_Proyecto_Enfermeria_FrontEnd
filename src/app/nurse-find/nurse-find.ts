@@ -27,10 +27,10 @@ export class NurseFind implements OnInit {
 	) { }
 
 	ngOnInit(): void {
-		if (!this.nurseService.isLoggedIn()) {
-			this.router.navigate(['/']);
-			return;
-		}
+		// if (!this.nurseService.isLoggedIn()) {
+		// 	this.router.navigate(['/']);
+		// 	return;
+		// }
 		//this.nurses = this.nurseService.getNurses()
 		this.nurseService.getNurses()
 			.subscribe(result => {

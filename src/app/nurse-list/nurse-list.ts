@@ -25,10 +25,11 @@ export class NurseList implements OnInit {
       this.router.navigate(['/']);
 			return;
     }
-    this.nurses = this.nurseService.getNurses().map(n => ({
-      ...n,
-      image: (n as Nurse).image 
-    }));
+    // this.nurses = this.nurseService.getNurses().map(n => ({
+    //   ...n,
+    //   image: (n as Nurse).image 
+
+    // }));
   }
   toggleList() {
     this.showList = !this.showList;

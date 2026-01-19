@@ -19,7 +19,7 @@ export class NurseLogin {
   password: string = '';
 
   constructor(private nurseService: NurseService, private router: Router) {
-    this.nurses = this.nurseService.getNurses();
+   // this.nurses = this.nurseService.getNurses();
   }
 
   login_message: string[] = [];

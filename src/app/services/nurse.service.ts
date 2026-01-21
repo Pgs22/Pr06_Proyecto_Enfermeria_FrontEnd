@@ -26,9 +26,9 @@ export class NurseService {
   private platformId = inject(PLATFORM_ID); //detect if is server o browser
   private _isLoggedIn: boolean = false;
   private nurses: Nurse[] = [
-    new Nurse(1, 'María López', 'maria.lopez@example.com', 'password1', '/img/Maria.png'),
-    new Nurse(2, 'Juan Pérez', 'juan.perez@example.com', 'password2', '/img/Juan.png'),
-    new Nurse(3, 'Ana García', 'ana.garcia@example.com', 'password3', '/img/Ana.png')
+    // new Nurse(1, 'María López', 'maria.lopez@example.com', 'password1', '/img/Maria.png'),
+    // new Nurse(2, 'Juan Pérez', 'juan.perez@example.com', 'password2', '/img/Juan.png'),
+    // new Nurse(3, 'Ana García', 'ana.garcia@example.com', 'password3', '/img/Ana.png')
   ];
 
   getNurses(): Nurse[] {
@@ -36,6 +36,10 @@ export class NurseService {
   }
 
   getNursesAjax(): Observable<Nurse[]> {
+    return this.http.get<Nurse[]>(this.url+"index");
+  }
+
+  getNursesList(): Observable<Nurse[]> {
     return this.http.get<Nurse[]>(this.url+"index");
   }
 

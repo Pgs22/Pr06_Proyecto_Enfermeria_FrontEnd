@@ -35,12 +35,15 @@ export class NurseService {
     return this.nurses;
   }
 
-  getNursesAjax(): Observable<Nurse[]> {
-    return this.http.get<Nurse[]>(this.url+"index");
+  getNursesFindByName(name: string): Observable<Nurse[]> {
+    if (!name || !name.trim()) {
+      return this.getNursesList();
+    }
+    return this.http.get<Nurse[]>(this.url+"name/", { params: { name } });
   }
 
   getNursesList(): Observable<Nurse[]> {
-    return this.http.get<Nurse[]>(this.url+"index");
+    return this.http.get<Nurse[]>(this.url + "index");
   }
 
   registerNurse(email: string, password: string): boolean {

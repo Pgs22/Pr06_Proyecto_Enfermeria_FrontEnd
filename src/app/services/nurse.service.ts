@@ -94,4 +94,18 @@ export class NurseService {
     return this._isLoggedIn;
   }
 
+  //For Register
+  postNurseAjax(nurse: Nurse): Observable<any> {
+    let formData: FormData = new FormData();
+
+    if (nurse.email) {
+      formData.append('email', nurse.email);
+    }
+    if (nurse.password) {
+      formData.append('password', nurse.password);
+    }
+
+    return this.http.post<any>(this.url, formData);
+  }
+
 }

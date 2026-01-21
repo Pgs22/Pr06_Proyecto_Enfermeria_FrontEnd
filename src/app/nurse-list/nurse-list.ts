@@ -12,8 +12,9 @@ import { Router } from '@angular/router';
 })
 
 export class NurseList implements OnInit {
-  showList = true;
   nurses: Nurse[] = [];
+  searchResults: Nurse[] = [];
+  showList = false;
 
   constructor(
     private nurseService: NurseService,
@@ -25,10 +26,15 @@ export class NurseList implements OnInit {
       this.router.navigate(['/']);
 			return;
     }
-    this.nurses = this.nurseService.getNurses().map(n => ({
-      ...n,
-      image: (n as Nurse).image 
-    }));
+    this.nurseService.getNursesList()
+		.subscribe(result => {
+			this.nurses = result;
+			console.log(result);
+		});
+    // this.nurses = this.nurseService.getNurses().map(n => ({
+    //   ...n,
+    //   image: (n as Nurse).image 
+    // }));
   }
   toggleList() {
     this.showList = !this.showList;

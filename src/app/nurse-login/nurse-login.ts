@@ -4,7 +4,6 @@ import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { NurseService, Nurse } from '../services/nurse.service';
 import { isEmpty } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-nurse-login',

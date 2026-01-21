@@ -10,7 +10,6 @@ import { isEmpty } from 'rxjs';
   imports: [CommonModule, RouterLink, FormsModule],
   templateUrl: './nurse-login.html',
   styleUrls: ['./nurse-login.css'],
-
 })
 
 //Añadimos implements OnInit

@@ -50,6 +50,7 @@ export class NurseService {
     return this.http.get<Nurse[]>(this.url + "index");
   }
 
+  /*After:
   registerNurse(email: string, password: string): boolean {
     const emailPattern = /^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$/;
     const passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,64}$/;
@@ -66,6 +67,7 @@ export class NurseService {
 
     return false;
   }
+  */
 
   loginUser() {
   this._isLoggedIn = true;
@@ -94,8 +96,8 @@ export class NurseService {
     return this._isLoggedIn;
   }
 
-  //For Register
-  postNurseAjax(nurse: Nurse): Observable<any> {
+  //For Register to connect Symfony
+  registerNurseAjax(nurse: Nurse): Observable<any> {
     let formData: FormData = new FormData();
 
     if (nurse.email) {
@@ -104,8 +106,8 @@ export class NurseService {
     if (nurse.password) {
       formData.append('password', nurse.password);
     }
-
-    return this.http.post<any>(this.url, formData);
+    //Add new because in backed its route too have new
+    return this.http.post<any>(this.url + "new", formData);
   }
 
 }

@@ -83,13 +83,15 @@ export class NurseRegister {
     this.isLoading = false;
     */
 
-    //For to connect at Symfony
-    this._nurseService.postNurseAjax({ email: this.email, password: this.password }).subscribe({
+    //For to connect at Symfony and BBDD
+    this._nurseService.registerNurseAjax({ email: this.email, password: this.password }).subscribe({
       next: (response: any) => {
         this.is_registered_ok = true;
         this.message_type = 'alert-success';
         this.register_message = [`Registration successful for: ${this.email}`];
         this.isLoading = false;
+        //Empty filds at finished
+        this.email = ''; this.password = ''; this.confirm_password = '';
       },
       error: (err: any) => {
         this.is_registered_error = true;

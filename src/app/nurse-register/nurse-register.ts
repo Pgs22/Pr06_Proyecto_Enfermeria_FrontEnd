@@ -64,6 +64,11 @@ export class NurseRegister {
     }
 
     // 5. Registration attempt
+    
+    /*
+    //If return true the method registerNurse() - It will keep being true the varible "success"
+    //But isn't possible in BBDD for sincron at Symfony
+
     const success = this._nurseService.registerNurse(this.email, this.password);
 
     if (success) {
@@ -75,8 +80,25 @@ export class NurseRegister {
       this.message_type = 'alert-danger';
       this.register_message = ['Error: Service validation failed.'];
     }
-
     this.isLoading = false;
+    */
+
+    //For to connect at Symfony
+    this._nurseService.postNurseAjax({ email: this.email, password: this.password }).subscribe({
+      next: (response: any) => {
+        this.is_registered_ok = true;
+        this.message_type = 'alert-success';
+        this.register_message = [`Registration successful for: ${this.email}`];
+        this.isLoading = false;
+      },
+      error: (err: any) => {
+        this.is_registered_error = true;
+        this.message_type = 'alert-danger';
+        this.register_message = ['Error: Service validation failed.'];
+      }
+    });
+
+
   }
 
 }

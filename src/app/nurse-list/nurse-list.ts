@@ -29,7 +29,7 @@ export class NurseList implements OnInit {
     this.nurseService.getNursesList()
 		.subscribe(result => {
 			this.nurses = result;
-			console.log(result);
+			//console.log(result);
 		});
     // this.nurses = this.nurseService.getNurses().map(n => ({
     //   ...n,

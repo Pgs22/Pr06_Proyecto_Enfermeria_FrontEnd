@@ -31,7 +31,7 @@ export class NurseFind implements OnInit {
 		this.nurseService.getNursesFindByName(this.username)
 		.subscribe(result => {
 			this.nurses = result;
-			console.log(result);
+			//console.log(result);
 		});
 	}
 

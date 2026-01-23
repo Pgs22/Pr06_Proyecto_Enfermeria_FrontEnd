@@ -1,4 +1,5 @@
-<div *ngIf="nurse" class="profile-container">
+@if (nurse) {
+<div class="profile-container">
   <h2>Perfil de {{nurse.name}}</h2>
   <div class="profile-info">
     <div class="form-group">
@@ -13,15 +14,17 @@
       <label for="password">Contraseña:</label>
       <input id="password" [(ngModel)]="nurse.password" type="password">
     </div>
-    <div *ngIf="nurse.image" class="image-preview">
+    @if (nurse.image) {
+    <div class="image-preview">
       <img [src]="nurse.image" alt="Imagen del perfil">
     </div>
+    }
   </div>
   <div class="actions">
     <button (click)="update()" class="btn-update">Actualizar</button>
     <button (click)="delete()" class="btn-delete">Darse de baja</button>
   </div>
 </div>
-<div *ngIf="!nurse">
-  <p>No se pudo cargar el perfil.</p>
-</div>
+} @else {
+<p>No se pudo cargar el perfil.</p>
+}

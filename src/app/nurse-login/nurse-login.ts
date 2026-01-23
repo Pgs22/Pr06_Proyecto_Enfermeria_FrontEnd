@@ -64,7 +64,7 @@ export class NurseLogin {
     this.message_type = 'success';
     this.login_message = ['Welcome back! Logging in...'];
     this.nurseService.loginUser();
-
+    localStorage.setItem('currentNurseId', found.id?.toString() || '');
     setTimeout(() => {
       this.router.navigate(['/']);
     }, 800);

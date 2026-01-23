@@ -4,15 +4,18 @@ import { NurseFind } from './nurse-find/nurse-find';
 import { Routes } from '@angular/router';
 import { NurseLogin } from './nurse-login/nurse-login';
 import { NurseRegister } from './nurse-register/nurse-register';
+import { NurseProfile } from './nurse-profile/nurse-profile';
 
 export const routes: Routes = [
-  {path:'',
-      loadComponent:()=>
-          import('./home/home').then(m=>m.Home)
+  {
+    path: '',
+    loadComponent: () =>
+      import('./home/home').then(m => m.Home)
   },
-  {path:'home/:user/:upasswd',
-      loadComponent:()=>
-          import('./home/home').then(m=>m.Home)
+  {
+    path: 'home/:user/:upasswd',
+    loadComponent: () =>
+      import('./home/home').then(m => m.Home)
   },
   {
     path: '',
@@ -23,17 +26,19 @@ export const routes: Routes = [
     component: NurseList
   },
   {
-      path: 'nurse-find',
-      component: NurseFind
+    path: 'nurse-find',
+    component: NurseFind
   },
   {
-      path: 'nurse-login',
-      component: NurseLogin
+    path: 'nurse-login',
+    component: NurseLogin
   },
-    {
-      path: 'nurse-register',
-      component: NurseRegister
-  }
-
-  
+  {
+    path: 'nurse-register',
+    component: NurseRegister
+  }, 
+  {
+    path: 'nurse-profile',
+    component: NurseProfile
+  },
 ];

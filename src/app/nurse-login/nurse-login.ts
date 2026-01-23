@@ -1,39 +1,45 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { NurseService, Nurse } from '../services/nurse.service';
 import { isEmpty } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-nurse-login',
   imports: [CommonModule, RouterLink, FormsModule],
   templateUrl: './nurse-login.html',
   styleUrls: ['./nurse-login.css'],
-})
-export class NurseLogin {
 
+})
+
+//Añadimos implements OnInit
+export class NurseLogin implements OnInit{
 
   nurses: Nurse[] = [];
   email: string = '';
   password: string = '';
-
-  constructor(private nurseService: NurseService, private router: Router) {
-    this.nurses = this.nurseService.getNurses();
-  }
-
   login_message: string[] = [];
   message_type = 'error'
-
   submit = false;
+
+  constructor(private nurseService: NurseService, private router: Router) {
+  //Antes: this.nurses = this.nurseService.getNurses();
+  }
+  //Ahora:
+  ngOnInit(): void {
+    // Usamos el metodo del service para cargar la lista que viene del backend
+    this.nurseService.getNursesList().subscribe({
+      next: (result) => {
+        this.nurses = result;
+      }
+    });
+  }
 
   handleFormSubmit() {
     this.submit = true;
     this.login_message = [];
-
-    if (this.nurses.length <= 0) {
-      this.login_message.push('No nurses found.');
-    }
 
     if (!this.validateEmail(this.email)) {
       this.login_message.push('Email formatted incorrectly, please enter a valid email.');
@@ -75,5 +81,4 @@ export class NurseLogin {
       /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.toLowerCase())
     );
   }
-
 }

@@ -23,20 +23,31 @@ export class Nurse {
 export class NurseService {
   constructor(private http: HttpClient) { }
   url = "http://localhost:8000/nurse/"
+
   private platformId = inject(PLATFORM_ID); //detect if is server o browser
   private _isLoggedIn: boolean = false;
+
+  //Pendiente de borrar si usamos los datos del backend
   private nurses: Nurse[] = [
     // new Nurse(1, 'María López', 'maria.lopez@example.com', 'password1', '/img/Maria.png'),
     // new Nurse(2, 'Juan Pérez', 'juan.perez@example.com', 'password2', '/img/Juan.png'),
     // new Nurse(3, 'Ana García', 'ana.garcia@example.com', 'password3', '/img/Ana.png')
   ];
 
+  //Pendiente de borrar si usamos los datos del backend
   getNurses(): Nurse[] {
     return this.nurses;
   }
 
-  getNursesAjax(): Observable<Nurse[]> {
-    return this.http.get<Nurse[]>(this.url+"index");
+  getNursesFindByName(name: string): Observable<Nurse[]> {
+    if (!name || !name.trim()) {
+      return this.getNursesList();
+    }
+    return this.http.get<Nurse[]>(this.url+"name/", { params: { name } });
+  }
+
+  getNursesList(): Observable<Nurse[]> {
+    return this.http.get<Nurse[]>(this.url + "index");
   }
 
   registerNurse(email: string, password: string): boolean {

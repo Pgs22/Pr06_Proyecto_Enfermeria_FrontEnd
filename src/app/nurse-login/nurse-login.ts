@@ -35,6 +35,7 @@ export class NurseLogin implements OnInit{
     });
   }
 
+  /*
   handleFormSubmit() {
     this.submit = true;
     this.login_message = [];
@@ -74,6 +75,9 @@ export class NurseLogin implements OnInit{
       this.router.navigate(['/']);
     }, 800);
   }
+  */
+
+  
 
   validateEmail(email: string): boolean {
     return (

@@ -28,7 +28,7 @@ export class NurseLogin implements OnInit{
   //Ahora:
   ngOnInit(): void {
     // Usamos el metodo del service para cargar la lista que viene del backend
-    this.nurseService.getNursesAjax().subscribe({
+    this.nurseService.getNursesList().subscribe({
       next: (result) => {
         this.nurses = result;
       }

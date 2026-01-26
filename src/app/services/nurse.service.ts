@@ -9,13 +9,13 @@ export class Nurse {
   name?: string;
   email?: string;
   password?: string;
-  image?: string;
-  constructor(id?: number, name?: string, email?: string, password?: string, image?: string) {
+  profileImage?: string;
+  constructor(id?: number, name?: string, email?: string, password?: string, profileImage?: string) {
     this.id = id;
     this.name = name;
     this.email = email;
     this.password = password;
-    this.image = image;
+    this.profileImage = profileImage;
   }
 }
 
@@ -29,9 +29,9 @@ export class NurseService {
 
   //Pendiente de borrar si usamos los datos del backend
   private nurses: Nurse[] = [
-    new Nurse(1, 'María López', 'maria.lopez@example.com', 'password1', '/img/Maria.png'),
-    new Nurse(2, 'Juan Pérez', 'juan.perez@example.com', 'password2', '/img/Juan.png'),
-    new Nurse(3, 'Ana García', 'ana.garcia@example.com', 'password3', '/img/Ana.png')
+    // new Nurse(1, 'María López', 'maria.lopez@example.com', 'password1', '/img/Maria.png'),
+    // new Nurse(2, 'Juan Pérez', 'juan.perez@example.com', 'password2', '/img/Juan.png'),
+    // new Nurse(3, 'Ana García', 'ana.garcia@example.com', 'password3', '/img/Ana.png')
   ];
 
   //Pendiente de borrar si usamos los datos del backend
@@ -39,8 +39,15 @@ export class NurseService {
     return this.nurses;
   }
 
-  getNursesAjax(): Observable<Nurse[]> {
-    return this.http.get<Nurse[]>(this.url+"index");
+  getNursesFindByName(name: string): Observable<Nurse[]> {
+    if (!name || !name.trim()) {
+      return this.getNursesList();
+    }
+    return this.http.get<Nurse[]>(this.url+"name/", { params: { name } });
+  }
+
+  getNursesList(): Observable<Nurse[]> {
+    return this.http.get<Nurse[]>(this.url + "index");
   }
 
   registerNurse(email: string, password: string): boolean {

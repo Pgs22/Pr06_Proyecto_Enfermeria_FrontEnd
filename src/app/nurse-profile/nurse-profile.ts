@@ -15,6 +15,7 @@ import { FormsModule } from '@angular/forms';
 export class NurseProfile implements OnInit {
 
   nurse: Nurse | null = null;
+  showPassword = false;
 
   constructor(private nurseService: NurseService, private router: Router) { }
 

@@ -9,13 +9,13 @@ export class Nurse {
   name?: string;
   email?: string;
   password?: string;
-  image?: string;
-  constructor(id?: number, name?: string, email?: string, password?: string, image?: string) {
+  profileImage?: string;
+  constructor(id?: number, name?: string, email?: string, password?: string, profileImage?: string) {
     this.id = id;
     this.name = name;
     this.email = email;
     this.password = password;
-    this.image = image;
+    this.profileImage = profileImage;
   }
 }
 

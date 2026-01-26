@@ -7,7 +7,7 @@
   <ul>
     @for (nurse of nurses; track $index) {
     <li>
-      <img [src]="nurse.image" alt="{{ nurse.name }}'s image">
+      <img [src]="nurse.profileImage" alt="{{ nurse.name }}'s image">
       <div class="nurse-info">
         <div class="nurse-id">{{ nurse.id }} - {{ nurse.name }}</div>
         <div class="nurse-email">{{ nurse.email }}</div>

@@ -16,17 +16,20 @@ export class NurseProfile implements OnInit {
 
   nurse: Nurse | null = null;
 
-  constructor(private nurseService: NurseService, private router: Router) {}
+  constructor(private nurseService: NurseService, private router: Router) { }
 
   ngOnInit(): void {
-    if (!this.nurseService.isLoggedIn()) {
-      this.router.navigate(['/']);
-      return;
-    }
-    const id = localStorage.getItem('currentNurseId');
-    if (id) {
-      this.nurse = this.nurseService.getNurses().find(n => n.id == +id) || null;
-    }
+    // const id = localStorage.getItem('currentNurseId');
+    const id = 8; // temporal mientras no va login
+    console.log('2. ID recuperado de LocalStorage:', id);
+    this.nurseService.getNursesList().subscribe({
+      next: (nurses) => {
+        this.nurse = nurses.find(n => n.id == +id) || null;
+        if (this.nurse) {
+          console.log('4. Enfermera encontrada:', this.nurse);
+        }
+      }
+    });
   }
 
   update() {

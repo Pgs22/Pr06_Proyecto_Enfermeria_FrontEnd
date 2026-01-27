@@ -71,10 +71,9 @@ export class NurseService {
     return false;
   }*/
   //AHORA
-  registerNurse(name: string, email: string, password: string): Observable<any> {
+  registerNurse(email: string, password: string): Observable<any> {
     // Creamos el objeto que Symfony espera recibir en $request->getContent()
     const nurseData = {
-      name: name,
       email: email,
       password: password
     };

@@ -14,7 +14,6 @@ import { Router } from '@angular/router';
   styleUrl: './nurse-register.css',
 })
 export class NurseRegister {
-  name = '';//añadido
   email = '';
   password = '';
   confirm_password = '';
@@ -94,9 +93,6 @@ export class NurseRegister {
   const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,64}$/;
 
   // 3. Validaciones lógicas (Frontend)
-  if (!this.name.trim()) {
-    this.register_message.push('Name is required.');
-  }
   if (!emailRegex.test(this.email)) {
     this.register_message.push('Invalid email format.');
   }
@@ -118,16 +114,13 @@ export class NurseRegister {
 
   // 4. LLAMADA AL BACKEND (Symfony)
   // Nota: Añadimos 'this.name' porque tu Symfony hace $nurse->setName($data['name'])
-  this._nurseService.registerNurse(this.name, this.email, this.password).subscribe({
+  this._nurseService.registerNurse(this.email, this.password).subscribe({
     next: (response) => {
       // Éxito: Symfony devuelve HTTP 201 y un JSON con el ID
       this.is_registered_ok = true;
       this.message_type = 'alert-success';
       this.register_message = [`Registration successful! ID: ${response.id}`];
       this.isLoading = false;
-
-      // Opcional: Redirigir al login tras un breve retraso
-      setTimeout(() => this.router.navigate(['/login']), 2000);
     },
     error: (err) => {
       // Error: Symfony devuelve 400 (Email already exists, etc.)

@@ -1,61 +1,33 @@
-.profile-container {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #f9f9f9;
+/* Reutilizamos los estilos de tu ejemplo nurse-find */
+.card {
+  border-radius: 12px;
 }
 
-.profile-info {
-  margin-bottom: 20px;
+.result-img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%; /* Cambiado a 50% para que sea circular como suele ser en perfiles */
+  margin: 10px;
+  border: 3px solid #f0f0f0;
 }
 
-.form-group {
-  margin-bottom: 15px;
+/* Colores de validación de Angular que ya tenías */
+.ng-invalid.ng-touched {
+  border-color: #dc3545; /* Rojo de Bootstrap */
 }
 
-label {
-  display: block;
-  margin-bottom: 5px;
+.ng-valid.ng-touched {
+  border-color: #198754; /* Verde de Bootstrap */
+}
+
+/* Ajustes adicionales para que se vea limpio */
+.form-label {
   font-weight: bold;
+  color: #555;
 }
 
-input {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.image-preview {
-  text-align: center;
-  margin-top: 20px;
-}
-
-img {
-  max-width: 150px;
-  border-radius: 50%;
-}
-
-.actions {
-  text-align: center;
-}
-
-button {
-  padding: 10px 20px;
-  margin: 0 10px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.btn-update {
-  background-color: #4CAF50;
-  color: white;
-}
-
-.btn-delete {
-  background-color: #f44336;
-  color: white;
+.input-group .btn {
+  /* Ajuste para el botón de mostrar password dentro del input */
+  z-index: 0;
 }

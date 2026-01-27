@@ -1,35 +1,56 @@
 @if (nurse) {
-<div class="profile-container">
-  <h2>Welcome to your profile {{nurse.name}}!</h2>
-  <div class="profile-info">
-    <div class="form-group">
-      <label for="name">Name:</label>
-      <input id="name" [(ngModel)]="nurse.name" type="text">
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-body text-center">
+          
+          <h2 class="mb-3">Welcome to your profile, {{nurse.name}}!</h2>
+
+          <!-- Imagen de perfil con el estilo de la referencia -->
+          @if (nurse.profileImage) {
+          <div class="image-preview mb-4">
+            <img [src]="nurse.profileImage" alt="Imagen del perfil" class="result-img shadow-sm">
+          </div>
+          }
+
+          <div class="profile-info text-start">
+            <div class="mb-3">
+              <label for="name" class="form-label">Name:</label>
+              <input id="name" class="form-control" [(ngModel)]="nurse.name" type="text">
+            </div>
+
+            <div class="mb-3">
+              <label for="email" class="form-label">Email:</label>
+              <input id="email" class="form-control" [(ngModel)]="nurse.email" type="email">
+            </div>
+
+            <div class="mb-3">
+              <label for="password" class="form-label">Password:</label>
+              <div class="input-group">
+                <input id="password" class="form-control" [(ngModel)]="nurse.password" [type]="showPassword ? 'text' : 'password'">
+                <button
+                  class="btn btn-outline-secondary"
+                  type="button"
+                  (mousedown)="showPassword = true"
+                  (mouseup)="showPassword = false"
+                  (mouseleave)="showPassword = false"
+                >
+                  {{ showPassword ? 'Hide' : 'Show' }}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="actions mt-4">
+            <button (click)="update()" class="btn btn-success w-100 mb-2">Update Profile</button>
+            <button (click)="delete()" class="btn btn-danger w-100 mb-2">Deactivate account</button>
+            <a class="btn btn-primary w-100 mb-3" routerLink="/">Home</a>
+          </div>
+
+        </div>
+      </div>
     </div>
-    <div class="form-group">
-      <label for="email">Email:</label>
-      <input id="email" [(ngModel)]="nurse.email" type="email">
-    </div>
-    <div class="form-group">
-      <label for="password">Password:</label>
-      <input id="password" [(ngModel)]="nurse.password" [type]="showPassword ? 'text' : 'password'">
-        <button
-          type="button"
-          (mousedown)="showPassword = true"
-          (mouseup)="showPassword = false"
-          (mouseleave)="showPassword = false"
-        >Show your password
-        </button>
-    </div>
-    @if (nurse.profileImage) {
-    <div class="image-preview">
-      <img [src]="nurse.profileImage" alt="Imagen del perfil">
-    </div>
-    }
-  </div>
-  <div class="actions">
-    <button (click)="update()" class="btn-update">Update</button>
-    <button (click)="delete()" class="btn-delete">Deactivate account</button>
   </div>
 </div>
 }

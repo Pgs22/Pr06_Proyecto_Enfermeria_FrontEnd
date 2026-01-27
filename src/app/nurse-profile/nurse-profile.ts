@@ -4,6 +4,7 @@ import { RouterLink } from "@angular/router";
 import { NurseService, Nurse } from '../services/nurse.service';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-nurse-profile',
@@ -17,36 +18,55 @@ export class NurseProfile implements OnInit {
   nurse: Nurse | null = null;
   showPassword = false;
 
-  constructor(private nurseService: NurseService, private router: Router) { }
+  constructor(
+    private nurseService: NurseService,
+    private router: Router,
+    private cdr: ChangeDetectorRef
+  ) { }
 
   ngOnInit(): void {
-    // const id = localStorage.getItem('currentNurseId');
-    const id = 8; // temporal mientras no va login
-    console.log('2. ID recuperado de LocalStorage:', id);
-    this.nurseService.getNursesList().subscribe({
-      next: (nurses) => {
-        this.nurse = nurses.find(n => n.id == +id) || null;
-        if (this.nurse) {
-          console.log('4. Enfermera encontrada:', this.nurse);
-        }
-      }
+    this.nurseService.getNurseById(this.nurseService.getSavedId()).subscribe({
+      next: (response: any) => {
+        this.nurse = response.nurse;
+        this.cdr.detectChanges();
+      },
+      error: (err) => console.error(err)
     });
   }
 
   update() {
-    if (this.nurse) {
-      this.nurseService.updateNurse(this.nurse);
-      alert('Perfil actualizado');
-    }
+    if (!this.nurse) return;
+    this.nurseService.updateNurse(this.nurse).subscribe({
+      next: (response: any) => {
+         this.nurse = { ...this.nurse, ...response.nurse };
+        this.cdr.detectChanges();
+
+        alert('Perfil actualizado');
+      }
+    });
   }
 
   delete() {
     if (this.nurse?.id) {
-      this.nurseService.deleteNurse(this.nurse.id);
-      this.nurseService.logoutUser();
-      localStorage.removeItem('currentNurseId');
-      alert('Cuenta eliminada');
-      this.router.navigate(['/']);
+      if (confirm('¿Seguro que quieres borrar tu cuenta?')) {
+
+        this.nurseService.deleteNurse(this.nurse.id).subscribe({
+          next: (response) => {
+            console.log('Borrado en Symfony:', response);
+            alert('Cuenta eliminada definitivamente');
+
+            // Limpiamos rastro y nos vamos
+            this.nurseService.logoutUser();
+            localStorage.removeItem('currentNurseId');
+            this.router.navigate(['/']);
+          },
+          error: (err) => {
+            console.error('Error al borrar:', err);
+            alert('No se pudo borrar la cuenta del servidor');
+          }
+        });
+
+      }
     }
   }
 }

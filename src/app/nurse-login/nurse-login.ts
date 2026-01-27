@@ -70,8 +70,7 @@ export class NurseLogin implements OnInit{
     this.message_type = 'success';
     this.login_message = ['Welcome back! Logging in...'];
     this.nurseService.loginUser();
-    
-
+    localStorage.setItem('currentNurseId', found.id?.toString() || '');
     setTimeout(() => {
       this.router.navigate(['/']);
     }, 800);
@@ -82,5 +81,4 @@ export class NurseLogin implements OnInit{
       /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.toLowerCase())
     );
   }
-
 }

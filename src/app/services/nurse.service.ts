@@ -43,7 +43,7 @@ export class NurseService {
     if (!name || !name.trim()) {
       return this.getNursesList();
     }
-    return this.http.get<Nurse[]>(this.url+"name/", { params: { name } });
+    return this.http.get<Nurse[]>(this.url + "name/", { params: { name } });
   }
 
   getNursesList(): Observable<Nurse[]> {
@@ -68,10 +68,10 @@ export class NurseService {
   }
 
   loginUser() {
-  this._isLoggedIn = true;
+    this._isLoggedIn = true;
     if (isPlatformBrowser(this.platformId)) {
       // We stored something so that `isLoggedIn()` can find it.
-      localStorage.setItem('userToken', 'true'); 
+      localStorage.setItem('userToken', 'true');
     }
   }
 
@@ -94,4 +94,21 @@ export class NurseService {
     return this._isLoggedIn;
   }
 
+  getNurseById(id: number): Observable<any> {
+    return this.http.get<any>(`${this.url}id/${id}`);
+  }
+
+  getSavedId(): number {
+    const id = localStorage.getItem('currentNurseId');
+    console.log('Respuesta de Symfony recibida:', id);
+    return id ? Number(id) : 8; // Devolvemos 8 temporalmente mientras no hay login
+  }
+
+  updateNurse(nurse: Nurse): Observable<any> {
+    return this.http.put<any>(`${this.url}id/${nurse.id}`, nurse);
+  }
+
+  deleteNurse(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.url}id/${id}`);
+  }
 }

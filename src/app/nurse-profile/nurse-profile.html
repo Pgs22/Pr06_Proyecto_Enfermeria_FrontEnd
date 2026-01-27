@@ -1,0 +1,35 @@
+@if (nurse) {
+<div class="profile-container">
+  <h2>Welcome to your profile {{nurse.name}}!</h2>
+  <div class="profile-info">
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input id="name" [(ngModel)]="nurse.name" type="text">
+    </div>
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input id="email" [(ngModel)]="nurse.email" type="email">
+    </div>
+    <div class="form-group">
+      <label for="password">Password:</label>
+      <input id="password" [(ngModel)]="nurse.password" [type]="showPassword ? 'text' : 'password'">
+        <button
+          type="button"
+          (mousedown)="showPassword = true"
+          (mouseup)="showPassword = false"
+          (mouseleave)="showPassword = false"
+        >Show your password
+        </button>
+    </div>
+    @if (nurse.profileImage) {
+    <div class="image-preview">
+      <img [src]="nurse.profileImage" alt="Imagen del perfil">
+    </div>
+    }
+  </div>
+  <div class="actions">
+    <button (click)="update()" class="btn-update">Update</button>
+    <button (click)="delete()" class="btn-delete">Deactivate account</button>
+  </div>
+</div>
+}

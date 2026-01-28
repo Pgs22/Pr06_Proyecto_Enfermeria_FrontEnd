@@ -9,13 +9,13 @@ export class Nurse {
   name?: string;
   email?: string;
   password?: string;
-  image?: string;
-  constructor(id?: number, name?: string, email?: string, password?: string, image?: string) {
+  profileImage?: string;
+  constructor(id?: number, name?: string, email?: string, password?: string, profileImage?: string) {
     this.id = id;
     this.name = name;
     this.email = email;
     this.password = password;
-    this.image = image;
+    this.profileImage = profileImage;
   }
 }
 
@@ -50,7 +50,10 @@ export class NurseService {
     return this.http.get<Nurse[]>(this.url + "index");
   }
 
-  /*After:
+
+
+  
+  /*
   registerNurse(email: string, password: string): boolean {
     const emailPattern = /^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$/;
     const passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,64}$/;
@@ -66,15 +69,40 @@ export class NurseService {
     }
 
     return false;
-  }
-  */
+  }*/
+  //AHORA
+  registerNurse(email: string, password: string): Observable<any> {
+    // Creamos el objeto que Symfony espera recibir en $request->getContent()
+    const nurseData = {
+      name: email,
+      email: email,
+      password: password
+    };
 
+    // Hacemos la petición POST al backend
+    // Usamos this.url + "create" o el nombre de la ruta que tengas en Symfony
+    return this.http.post<any>(this.url + "new", nurseData);
+  }
+
+  /*antes:
   loginUser() {
   this._isLoggedIn = true;
     if (isPlatformBrowser(this.platformId)) {
       // We stored something so that `isLoggedIn()` can find it.
       localStorage.setItem('userToken', 'true'); 
     }
+  }*/
+  //Ahora:
+  loginUser(id: string) {
+    this._isLoggedIn = true;
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('userToken', 'true'); 
+      localStorage.setItem('nurseId', id); // Guardamos el ID que viene de Symfony
+    }
+  }
+  //LLAMADA AL BACKEND
+  login(email: string, password: string): Observable<any> {
+    return this.http.post<any>(this.url + "login", { email, password });
   }
 
   logoutUser() {
@@ -94,20 +122,6 @@ export class NurseService {
       return this._isLoggedIn || !!localStorage.getItem('userToken');
     }
     return this._isLoggedIn;
-  }
-
-  //For Register to connect Symfony
-  registerNurseAjax(nurse: Nurse): Observable<any> {
-    let formData: FormData = new FormData();
-
-    if (nurse.email) {
-      formData.append('email', nurse.email);
-    }
-    if (nurse.password) {
-      formData.append('password', nurse.password);
-    }
-    //Add new because in backed its route too have new
-    return this.http.post<any>(this.url + "new", formData);
   }
 
 }

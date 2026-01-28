@@ -67,12 +67,25 @@ export class NurseService {
     return false;
   }
 
+  /*antes:
   loginUser() {
   this._isLoggedIn = true;
     if (isPlatformBrowser(this.platformId)) {
       // We stored something so that `isLoggedIn()` can find it.
       localStorage.setItem('userToken', 'true'); 
     }
+  }*/
+  //Ahora:
+  loginUser(id: string) {
+    this._isLoggedIn = true;
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('userToken', 'true'); 
+      localStorage.setItem('nurseId', id); // Guardamos el ID que viene de Symfony
+    }
+  }
+  //LLAMADA AL BACKEND
+  login(email: string, password: string): Observable<any> {
+    return this.http.post<any>(this.url + "login", { email, password });
   }
 
   logoutUser() {

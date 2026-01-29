@@ -67,28 +67,27 @@ export class NurseService {
     return false;
   }
 
-  /*antes:
-  loginUser() {
-  this._isLoggedIn = true;
-    if (isPlatformBrowser(this.platformId)) {
-      // We stored something so that `isLoggedIn()` can find it.
-      localStorage.setItem('userToken', 'true'); 
-    }
-  }*/
-  //Ahora:
-  //LLAMADA AL BACKEND
+  /**
+   * LOGIN CALL AT BACKEND
+   * @param email
+   * @param password 
+   * @returns 
+   */
   login(email: string, password: string): Observable<any> {
     return this.http.post<any>(this.url + "login", { email, password });
   }
-  // Se acepta login y recibe ID
+ 
+  /**
+   * LOGIN VALIDACION
+   * @param nurseId //Si se acepta login guardamos ID
+   */
   loginUser(nurseId: string) {
     this._isLoggedIn = true;
     if (isPlatformBrowser(this.platformId)) {
       localStorage.setItem('userToken', 'true'); 
-      localStorage.setItem('nurseId', nurseId); // Guardamos el ID por si lo necesitas luego
+      localStorage.setItem('nurseId', nurseId);
     }
   }
-
 
   logoutUser() {
     this._isLoggedIn = false;

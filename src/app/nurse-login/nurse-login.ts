@@ -36,51 +36,9 @@ export class NurseLogin implements OnInit{
   }
 
 
-  /*
-  handleFormSubmit() {
-    this.submit = true;
-    this.login_message = [];
-
-    if (!this.validateEmail(this.email)) {
-      this.login_message.push('Email formatted incorrectly, please enter a valid email.');
-    }
-
-    if (!this.password || this.password.length < 8) {
-      this.login_message.push('Password must be at the very least 8 characters long.');
-    }
-
-    if (this.login_message.length > 0) {
-      return;
-    }
-
-    const found = this.nurses.find(n => n.email === this.email);
-    if (!found) {
-      this.message_type = 'error';
-      this.login_message = ['Email not found. Please check your email or register.'];
-      return;
-    }
-
-    if (found.password !== this.password) {
-      this.message_type = 'error';
-      this.login_message = ['Incorrect password. Please try again.'];
-      return;
-    }
-
-    // Validation success
-    this.message_type = 'success';
-    this.login_message = ['Welcome back! Logging in...'];
-    this.nurseService.loginUser();
-    
-
-    setTimeout(() => {
-      this.router.navigate(['/']);
-    }, 800);
-  }
-*/
-
 /**
- * Ahora
- * @returns 
+ * LOGIN connection with nurseService.login()and connected with Symfony backend
+ * @return ID en navegador si es OK
  */
   handleFormSubmit() {
     this.submit = true;

@@ -67,11 +67,25 @@ export class NurseService {
     return false;
   }
 
-  loginUser() {
+  /**
+   * LOGIN CALL AT BACKEND
+   * @param email
+   * @param password 
+   * @returns 
+   */
+  login(email: string, password: string): Observable<any> {
+    return this.http.post<any>(this.url + "login", { email, password });
+  }
+ 
+  /**
+   * LOGIN VALIDACION
+   * @param nurseId //Si se acepta login guardamos ID
+   */
+  loginUser(nurseId: string) {
     this._isLoggedIn = true;
     if (isPlatformBrowser(this.platformId)) {
-      // We stored something so that `isLoggedIn()` can find it.
-      localStorage.setItem('userToken', 'true');
+      localStorage.setItem('userToken', 'true'); 
+      localStorage.setItem('nurseId', nurseId);
     }
   }
 
@@ -79,6 +93,7 @@ export class NurseService {
     this._isLoggedIn = false;
     if (isPlatformBrowser(this.platformId)) {
       localStorage.removeItem('userToken');
+      localStorage.removeItem('nurseId');
     }
   }
 

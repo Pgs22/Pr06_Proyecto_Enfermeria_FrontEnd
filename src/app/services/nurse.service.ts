@@ -27,27 +27,27 @@ export class NurseService {
   private platformId = inject(PLATFORM_ID); //detect if is server o browser
   private _isLoggedIn: boolean = false;
 
-  //Pendiente de borrar si usamos los datos del backend
-  private nurses: Nurse[] = [
-    // new Nurse(1, 'María López', 'maria.lopez@example.com', 'password1', '/img/Maria.png'),
-    // new Nurse(2, 'Juan Pérez', 'juan.perez@example.com', 'password2', '/img/Juan.png'),
-    // new Nurse(3, 'Ana García', 'ana.garcia@example.com', 'password3', '/img/Ana.png')
-  ];
-
-  //Pendiente de borrar si usamos los datos del backend
-  getNurses(): Nurse[] {
-    return this.nurses;
-  }
+  private nurses: Nurse[] = [];
 
   getNursesFindByName(name: string): Observable<Nurse[]> {
     if (!name || !name.trim()) {
       return this.getNursesList();
     }
-    return this.http.get<Nurse[]>(this.url+"name/", { params: { name } });
+    return this.http.get<Nurse[]>(this.url + "name/", { params: { name } });
   }
 
   getNursesList(): Observable<Nurse[]> {
     return this.http.get<Nurse[]>(this.url + "index");
+  }
+
+  searchNurses(nurses: Nurse[], searchTerm: string): Nurse[] {
+    if (!searchTerm || !searchTerm.trim()) {
+      return [];
+    }
+    const term = searchTerm.trim().toLowerCase();
+    return nurses.filter(nurse =>
+      (nurse.name || '').toLowerCase().includes(term)
+    );
   }
 
   registerNurse(email: string, password: string): boolean {
@@ -109,4 +109,21 @@ export class NurseService {
     return this._isLoggedIn;
   }
 
+  getNurseById(id: number): Observable<any> {
+    return this.http.get<any>(`${this.url}id/${id}`);
+  }
+
+  getSavedId(): number {
+    const id = localStorage.getItem('currentNurseId');
+    console.log('Respuesta de Symfony recibida:', id);
+    return id ? Number(id) : 8; // Devolvemos 8 temporalmente mientras no hay login
+  }
+
+  updateNurse(nurse: Nurse): Observable<any> {
+    return this.http.put<any>(`${this.url}id/${nurse.id}`, nurse);
+  }
+
+  deleteNurse(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.url}id/${id}`);
+  }
 }

@@ -86,5 +86,4 @@ export class NurseLogin implements OnInit{
       /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.toLowerCase())
     );
   }
-
 }

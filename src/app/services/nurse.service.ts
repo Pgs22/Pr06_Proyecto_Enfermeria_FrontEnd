@@ -76,7 +76,7 @@ export class NurseService {
   login(email: string, password: string): Observable<any> {
     return this.http.post<any>(this.url + "login", { email, password });
   }
- 
+
   /**
    * LOGIN VALIDACION
    * @param nurseId //Si se acepta login guardamos ID
@@ -84,7 +84,7 @@ export class NurseService {
   loginUser(nurseId: string) {
     this._isLoggedIn = true;
     if (isPlatformBrowser(this.platformId)) {
-      localStorage.setItem('userToken', 'true'); 
+      localStorage.setItem('userToken', 'true');
       localStorage.setItem('nurseId', nurseId);
     }
   }
@@ -114,9 +114,8 @@ export class NurseService {
   }
 
   getSavedId(): number {
-    const id = localStorage.getItem('currentNurseId');
-    console.log('Respuesta de Symfony recibida:', id);
-    return id ? Number(id) : 8; // Devolvemos 8 temporalmente mientras no hay login
+    const id = localStorage.getItem('nurseId');
+    return id ? Number(id) : 0;
   }
 
   updateNurse(nurse: Nurse): Observable<any> {

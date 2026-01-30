@@ -38,10 +38,13 @@ export class NurseProfile implements OnInit {
     if (!this.nurse) return;
     this.nurseService.updateNurse(this.nurse).subscribe({
       next: (response: any) => {
-         this.nurse = { ...this.nurse, ...response.nurse };
+        this.nurse = { ...this.nurse, ...response.nurse };
         this.cdr.detectChanges();
-
-        alert('Perfil actualizado');
+        alert('Perfil actualizado correctamente');
+      },
+      error: (err) => {
+        console.error('Error al actualizar:', err);
+        alert('No se pudo actualizar el perfil. Comprueba tu conexión o los datos introducidos.');
       }
     });
   }
@@ -52,12 +55,10 @@ export class NurseProfile implements OnInit {
 
         this.nurseService.deleteNurse(this.nurse.id).subscribe({
           next: (response) => {
-            console.log('Borrado en Symfony:', response);
             alert('Cuenta eliminada definitivamente');
 
-            // Limpiamos rastro y nos vamos
             this.nurseService.logoutUser();
-            localStorage.removeItem('currentNurseId');
+            localStorage.removeItem('nurseId');
             this.router.navigate(['/']);
           },
           error: (err) => {

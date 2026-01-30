@@ -1,0 +1,33 @@
+/* Reutilizamos los estilos de tu ejemplo nurse-find */
+.card {
+  border-radius: 12px;
+}
+
+.result-img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%; /* Cambiado a 50% para que sea circular como suele ser en perfiles */
+  margin: 10px;
+  border: 3px solid #f0f0f0;
+}
+
+/* Colores de validación de Angular que ya tenías */
+.ng-invalid.ng-touched {
+  border-color: #dc3545; /* Rojo de Bootstrap */
+}
+
+.ng-valid.ng-touched {
+  border-color: #198754; /* Verde de Bootstrap */
+}
+
+/* Ajustes adicionales para que se vea limpio */
+.form-label {
+  font-weight: bold;
+  color: #555;
+}
+
+.input-group .btn {
+  /* Ajuste para el botón de mostrar password dentro del input */
+  z-index: 0;
+}

@@ -31,7 +31,7 @@ export class NurseFind implements OnInit {
 		this.nurseService.getNursesFindByName(this.username)
 		.subscribe(result => {
 			this.nurses = result;
-			console.log(result);
+			//console.log(result);
 		});
 	}
 
@@ -44,9 +44,6 @@ export class NurseFind implements OnInit {
 
 		console.log("Buscando a: " + searchTerm);
 
-		// Filtramos la lista completa (this.nurses)
-		this.searchResults = this.nurses.filter(nurse =>
-			(nurse.name || '').toLowerCase().includes(searchTerm)
-		);
+		this.searchResults = this.nurseService.searchNurses(this.nurses, searchTerm);
 	}
 }

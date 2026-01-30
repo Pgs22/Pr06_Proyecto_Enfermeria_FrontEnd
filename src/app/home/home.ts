@@ -43,6 +43,7 @@ export class Home implements OnInit{
 
   onLogout() {
     this.nurseService.logoutUser();
+    localStorage.removeItem('currentNurseId');
     this._router.navigate(['/nurse-login']); //Add
       }
   }

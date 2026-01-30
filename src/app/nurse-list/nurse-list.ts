@@ -26,15 +26,20 @@ export class NurseList implements OnInit {
       this.router.navigate(['/']);
 			return;
     }
-    this.nurseService.getNursesList()
-		.subscribe(result => {
-			this.nurses = result;
-			console.log(result);
-		});
-    // this.nurses = this.nurseService.getNurses().map(n => ({
-    //   ...n,
-    //   image: (n as Nurse).image 
-    // }));
+ this.nurseService.getNursesList().subscribe(result => {
+  this.nurses = result.map(nurse => {
+    const imageData = nurse.profileImage;
+
+    // Si el backend devuelve base64 sin prefijo, agrega el prefijo MIME
+    if (imageData && !imageData.startsWith('data:')) {
+      const mimeType = imageData.startsWith('/9j/') ? 'image/jpeg' : 'image/png';
+      nurse.profileImage = `data:${mimeType};base64,${imageData}`;
+    } else if (imageData) {
+      nurse.profileImage = imageData;
+    }
+    return nurse;
+  });
+});
   }
   toggleList() {
     this.showList = !this.showList;

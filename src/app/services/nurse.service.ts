@@ -50,6 +50,10 @@ export class NurseService {
     );
   }
 
+
+
+  
+  /*
   registerNurse(email: string, password: string): boolean {
     const emailPattern = /^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$/;
     const passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,64}$/;
@@ -65,9 +69,22 @@ export class NurseService {
     }
 
     return false;
+  }*/
+  //AHORA
+  registerNurse(email: string, password: string): Observable<any> {
+    // Creamos el objeto que Symfony espera recibir en $request->getContent()
+    const nurseData = {
+      email: email,
+      password: password
+    };
+
+    // Hacemos la petición POST al backend
+    // Usamos this.url + "create" o el nombre de la ruta que tengas en Symfony
+    return this.http.post<any>(this.url + "new", nurseData);
   }
 
-  /**
+
+    /**
    * LOGIN CALL AT BACKEND
    * @param email
    * @param password 
@@ -81,13 +98,15 @@ export class NurseService {
    * LOGIN VALIDACION
    * @param nurseId //Si se acepta login guardamos ID
    */
-  loginUser(nurseId: string) {
+  //Ahora:
+  loginUser(id: string) {
     this._isLoggedIn = true;
     if (isPlatformBrowser(this.platformId)) {
-      localStorage.setItem('userToken', 'true');
-      localStorage.setItem('nurseId', nurseId);
+      localStorage.setItem('userToken', 'true'); 
+      localStorage.setItem('nurseId', id); // Guardamos el ID que viene de Symfony
     }
   }
+
 
   logoutUser() {
     this._isLoggedIn = false;

@@ -32,6 +32,10 @@ export class NurseRegister {
    * Performs client-side validations.
    */
   handleFormSubmit() {
+
+
+
+
     // 1. Total cleanup of states
     this.register_message = [];
     this.is_registered_ok = false;
@@ -63,7 +67,7 @@ export class NurseRegister {
       return;
     }
 
-    // 5. Registration attempt
+    /*
     const success = this._nurseService.registerNurse(this.email, this.password);
 
     if (success) {
@@ -77,6 +81,34 @@ export class NurseRegister {
     }
 
     this.isLoading = false;
+    */
+
+    this._nurseService.registerNurse(this.email, this.password).subscribe({
+      next: (response) => {
+        // Symfony devuelve 201 Created y un JSON con el ID
+        this.is_registered_ok = true;
+        this.is_registered_error = false;
+        this.message_type = 'alert-success';
+        this.register_message = ['Registration successful! You can now log in.'];
+        this.isLoading = false;
+        
+        // Limpiamos los campos para seguridad
+        this.email = '';
+        this.password = '';
+        this.confirm_password = '';
+      },
+      error: (err) => {
+        // Aquí caen los errores 400 (Email exists) o 500
+        this.is_registered_error = true;
+        this.is_registered_ok = false;
+        this.message_type = 'alert-danger';
+        
+        // Mostramos el mensaje de error que configuraste en Symfony: ['error' => '...']
+        const errorMsg = err.error?.error || 'Error: Service validation failed.';
+        this.register_message = [errorMsg];
+        this.isLoading = false;
+      }
+    });
   }
 
 }

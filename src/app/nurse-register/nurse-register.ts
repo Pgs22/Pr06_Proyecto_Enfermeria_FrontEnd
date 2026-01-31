@@ -99,14 +99,16 @@ export class NurseRegister {
       error: (err) => {
         // Errores 400 (Email exists) o 500
         this.is_registered_error = true;
-        this.cdr.detectChanges(); // También en el error
         this.is_registered_ok = false;
         this.message_type = 'alert-danger';
+        this.isLoading = false;
         
         // Mostramos el mensaje de error de Symfony: ['error' => '...'] ó por si no se recibe
         const errorMsg = err.error?.error || 'Error: Service validation failed.';
         this.register_message = [errorMsg];
-        this.isLoading = false;
+        
+        this.cdr.markForCheck(); // Forzamos a la vista a pintarse YA
+        this.cdr.detectChanges(); // Se cambia orden, después de actualizar el mensaje, no antes.
       }
 
     });

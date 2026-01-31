@@ -4,6 +4,7 @@ import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { NurseService, Nurse } from '../services/nurse.service';
 import { isEmpty } from 'rxjs';
+import { ChangeDetectorRef } from '@angular/core'; // Para solucionar mostrar mensaje error password en login Importamos ChangeDetectorRef
 
 @Component({
   selector: 'app-nurse-login',
@@ -22,9 +23,11 @@ export class NurseLogin implements OnInit{
   message_type = 'error'
   submit = false;
 
-  constructor(private nurseService: NurseService, private router: Router) {
-  //Antes: this.nurses = this.nurseService.getNurses();
-  }
+  constructor(
+    private nurseService: NurseService,
+    private router: Router,
+    private cdr: ChangeDetectorRef // Para solucionar mostrar mensaje error password en login
+    ) {  }
   //Ahora:
   ngOnInit(): void {
     // Usamos el metodo del service para cargar la lista que viene del backend
@@ -43,16 +46,12 @@ export class NurseLogin implements OnInit{
   handleFormSubmit() {
     this.submit = true;
     this.login_message = [];
+    this.message_type = 'error'; // Reset por defecto a error
 
-    // 1. Validaciones básicas de formato
-    if (!this.validateEmail(this.email)) {
-      this.login_message.push('Email formatted incorrectly.');
+    if (this.login_message.length > 0) {
+      this.cdr.detectChanges(); // Para que salgan los errores de validación local
+      return;
     }
-    if (!this.password || this.password.length < 8) {
-      this.login_message.push('Password must be at least 8 characters long.');
-    }
-
-    if (this.login_message.length > 0) return;
 
     // 2. Llamada al servicio que conecta con Symfony
     this.nurseService.login(this.email, this.password).subscribe({
@@ -65,6 +64,8 @@ export class NurseLogin implements OnInit{
           // Pasamos el ID al método del servicio para que lo guarde en localStorage
           this.nurseService.loginUser(response.id.toString()); 
 
+          this.cdr.detectChanges(); // Forzamos actualización para mostrar mensaje antes de redirigir
+
           setTimeout(() => {
             this.router.navigate(['/']); 
           }, 800);
@@ -76,14 +77,12 @@ export class NurseLogin implements OnInit{
         // Usamos el mensaje que viene de Symfony si existe, si no, uno genérico
         const errorMsg = err.error?.message || 'Invalid credentials. Please try again.';
         this.login_message = [errorMsg];
+
+        this.cdr.detectChanges(); // 3. FORZAR el mensaje de error inmediatamente
         console.error('Login error:', err);
       }
     });
   }
 
-  validateEmail(email: string): boolean {
-    return (
-      /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.toLowerCase())
-    );
-  }
+
 }

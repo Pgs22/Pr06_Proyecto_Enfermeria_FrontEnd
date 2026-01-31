@@ -32,10 +32,6 @@ export class NurseRegister {
    * Performs client-side validations.
    */
   handleFormSubmit() {
-
-
-
-
     // 1. Total cleanup of states
     this.register_message = [];
     this.is_registered_ok = false;
@@ -96,6 +92,20 @@ export class NurseRegister {
         this.email = '';
         this.password = '';
         this.confirm_password = '';
+
+        //mostramos registro ok
+        const success = this.is_registered_ok;
+
+        if (success) {
+          this.is_registered_ok = true;
+          this.message_type = 'alert-success';
+          this.register_message = [`Registration successful for: ${this.email}`];
+        } else {
+          this.is_registered_error = true;
+          this.message_type = 'alert-danger';
+          this.register_message = ['Error: Service validation failed.'];
+        }
+
       },
       error: (err) => {
         // Aquí caen los errores 400 (Email exists) o 500

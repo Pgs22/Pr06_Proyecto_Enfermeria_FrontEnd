@@ -70,6 +70,7 @@ export class NurseRegister {
         const userEmail = this.email; //Guardamos email recibido
         // Para mostrar mensaje de registro cmpletado
         this.is_registered_ok = true;
+        console.log('Registration successful, ID:', response.id); //Para detectar si cambia a true la variable o falla "" no muestra error ""
         this.is_registered_error = false;
         this.message_type = 'alert-success';
         this.register_message = [`Registration successful for: ${userEmail}`];

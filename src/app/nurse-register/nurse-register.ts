@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { NurseService } from '../services/nurse.service';
 import { ChangeDetectorRef } from '@angular/core'; // FOR SOLUTION swow msg returned by API
+import { NgForm } from '@angular/forms'; // FOR SOLUTION swow msg returned by API
 
 
 @Component({
@@ -35,12 +36,14 @@ export class NurseRegister {
    * Handles the submission of the registration form.
    * Performs client-side validations.
    */
-  handleFormSubmit() {
+  handleFormSubmit(form: NgForm) {
     // 1. Total cleanup of states
     this.register_message = [];
     this.is_registered_ok = false;
     this.is_registered_error = false;
+    this.register_message = [];
     this.isLoading = true;
+    this.cdr.detectChanges(); // Forzamos a que el mensaje viejo se borre de la pantalla
 
     // 2. Regex definition (We use object format to avoid escape conflicts)
     const emailRegex = /^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$/;
@@ -78,13 +81,17 @@ export class NurseRegister {
         this.is_registered_error = false;
         this.message_type = 'alert-success';
         this.register_message = [`Registration successful for: ${userEmail}`];
+
+        form.resetForm();
+
         this.isLoading = false;        
         // Limpiamos los campos del formulario
-        this.email = '';
-        this.password = '';
-        this.confirm_password = '';
+        //this.email = '';
+        //this.password = '';
+        //this.confirm_password = '';
 
         // FORZAMOS A ANGULAR A REDIBUJAR
+        this.cdr.markForCheck(); //Forzamos a la vista a pintarse YA
         this.cdr.detectChanges();
         console.log('Change detection triggered.');
       },

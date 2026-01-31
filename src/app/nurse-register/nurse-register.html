@@ -8,7 +8,7 @@
 
         <!--To execute the function handleFormSubmit() as soon as I press the button on the form -->
 
-        <form (ngSubmit)="handleFormSubmit()">
+        <form #registerForm="ngForm" (ngSubmit)="handleFormSubmit(registerForm)">
             
             <div class="mb-3">
                 <label for="emailInput" class="form-label fw-semibold">
@@ -87,11 +87,14 @@
                 </a>
             </div>
 
-            <!--To display an error message if the data is invalid in the second validation, 
-            configure the function that runs when the form is submitted, in nuser-register.ts--> 
+
+            
+        </form>
+
+        <!--To display an error message if the data is invalid in the second validation, 
+        configure the function that runs when the form is submitted, in nuser-register.ts--> 
 
         @if (is_registered_ok) {
-
             <div class="alert alert-success d-flex align-items-center mt-3" role="alert">              
                 <i class="bi bi-check-circle-fill me-2"></i>
                 <div>
@@ -110,8 +113,7 @@
                     }
                 </div>
             </div>
+
         }
-            
-        </form>
     </div>
 </div>

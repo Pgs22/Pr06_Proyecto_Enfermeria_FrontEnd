@@ -80,9 +80,9 @@ export class NurseRegister {
         this.register_message = [`Registration successful for: ${userEmail}`];
         this.isLoading = false;        
         // Limpiamos los campos del formulario
-        //this.email = '';
-        //this.password = '';
-        //this.confirm_password = '';
+        this.email = '';
+        this.password = '';
+        this.confirm_password = '';
 
         // FORZAMOS A ANGULAR A REDIBUJAR
         this.cdr.detectChanges();

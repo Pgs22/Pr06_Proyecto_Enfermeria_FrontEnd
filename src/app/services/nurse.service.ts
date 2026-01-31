@@ -3,7 +3,6 @@ import { isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-
 export class Nurse {
   id?: number;
   name?: string;

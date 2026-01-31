@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { NurseService } from '../services/nurse.service';
+import { ChangeDetectorRef } from '@angular/core'; // FOR SOLUTION swow msg returned by API
 
 
 @Component({
@@ -25,7 +26,10 @@ export class NurseRegister {
   message_type = ''; 
   isLoading = false;
 
-  constructor( private _nurseService: NurseService) { }
+  constructor( 
+    private _nurseService: NurseService,
+    private cdr: ChangeDetectorRef // Inject ChangeDetectorRef to manually trigger change detection
+  ) { }
 
   /**
    * Handles the submission of the registration form.
@@ -76,14 +80,19 @@ export class NurseRegister {
         this.register_message = [`Registration successful for: ${userEmail}`];
         this.isLoading = false;        
         // Limpiamos los campos del formulario
-        this.email = '';
-        this.password = '';
-        this.confirm_password = '';
+        //this.email = '';
+        //this.password = '';
+        //this.confirm_password = '';
+
+        // FORZAMOS A ANGULAR A REDIBUJAR
+        this.cdr.detectChanges();
+        console.log('Change detection triggered.');
       },
 
       error: (err) => {
         // Errores 400 (Email exists) o 500
         this.is_registered_error = true;
+        this.cdr.detectChanges(); // También en el error
         this.is_registered_ok = false;
         this.message_type = 'alert-danger';
         

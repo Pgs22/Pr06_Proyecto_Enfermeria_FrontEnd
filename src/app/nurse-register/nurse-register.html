@@ -8,7 +8,7 @@
 
         <!--To execute the function handleFormSubmit() as soon as I press the button on the form -->
 
-        <form (ngSubmit)="handleFormSubmit()">
+        <form #registerForm="ngForm" (ngSubmit)="handleFormSubmit(registerForm)">
             
             <div class="mb-3">
                 <label for="emailInput" class="form-label fw-semibold">
@@ -87,20 +87,33 @@
                 </a>
             </div>
 
-            <!--To display an error message if the data is invalid in the second validation, 
-            configure the function that runs when the form is submitted, in nuser-register.ts--> 
 
-        @if (is_registered_ok || is_registered_error) {
-            <div [ngClass]="['alert', message_type, 'd-flex', 'align-items-center', 'mt-3']" role="alert">
-                <i class="bi" [ngClass]="is_registered_ok ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'"></i> 
-                <div class="ms-2">
-                    @for (msg of register_message; track $index) {
-                        <p class="mb-0">{{ msg }}</p>
+            
+        </form>
+
+        <!--To display an error message if the data is invalid in the second validation, 
+        configure the function that runs when the form is submitted, in nuser-register.ts--> 
+
+        @if (is_registered_ok) {
+            <div class="alert alert-success d-flex align-items-center mt-3" role="alert">              
+                <i class="bi bi-check-circle-fill me-2"></i>
+                <div>
+                    @for (msg of register_message; track msg) {
+                        <p class="mb-0"><strong>Success:</strong> {{ msg }}</p>
                     }
                 </div>
             </div>
         }
-            
-        </form>
+        @if (is_registered_error) {
+            <div class="alert alert-danger d-flex align-items-center mt-3" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                <div>
+                    @for (msg of register_message; track msg) {
+                        <p class="mb-0"><strong>Error:</strong> {{ msg }}</p>
+                    }
+                </div>
+            </div>
+
+        }
     </div>
 </div>

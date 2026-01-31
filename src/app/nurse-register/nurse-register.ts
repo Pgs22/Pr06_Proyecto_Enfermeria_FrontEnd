@@ -63,62 +63,35 @@ export class NurseRegister {
       return;
     }
 
-    /*
-    const success = this._nurseService.registerNurse(this.email, this.password);
-
-    if (success) {
-      this.is_registered_ok = true;
-      this.message_type = 'alert-success';
-      this.register_message = [`Registration successful for: ${this.email}`];
-    } else {
-      this.is_registered_error = true;
-      this.message_type = 'alert-danger';
-      this.register_message = ['Error: Service validation failed.'];
-    }
-
-    this.isLoading = false;
-    */
-
     this._nurseService.registerNurse(this.email, this.password).subscribe({
+
       next: (response) => {
         // Symfony devuelve 201 Created y un JSON con el ID
+        const userEmail = this.email; //Guardamos email recibido
+        // Para mostrar mensaje de registro cmpletado
         this.is_registered_ok = true;
         this.is_registered_error = false;
         this.message_type = 'alert-success';
-        this.register_message = ['Registration successful! You can now log in.'];
-        this.isLoading = false;
-        
-        // Limpiamos los campos para seguridad
+        this.register_message = [`Registration successful for: ${userEmail}`];
+        this.isLoading = false;        
+        // Limpiamos los campos del formulario
         this.email = '';
         this.password = '';
         this.confirm_password = '';
-
-        //mostramos registro ok
-        const success = this.is_registered_ok;
-
-        if (success) {
-          this.is_registered_ok = true;
-          this.message_type = 'alert-success';
-          this.register_message = [`Registration successful for: ${this.email}`];
-        } else {
-          this.is_registered_error = true;
-          this.message_type = 'alert-danger';
-          this.register_message = ['Error: Service validation failed.'];
-        }
-
       },
+
       error: (err) => {
-        // Aquí caen los errores 400 (Email exists) o 500
+        // Errores 400 (Email exists) o 500
         this.is_registered_error = true;
         this.is_registered_ok = false;
         this.message_type = 'alert-danger';
         
-        // Mostramos el mensaje de error que configuraste en Symfony: ['error' => '...']
+        // Mostramos el mensaje de error de Symfony: ['error' => '...'] ó por si no se recibe
         const errorMsg = err.error?.error || 'Error: Service validation failed.';
         this.register_message = [errorMsg];
         this.isLoading = false;
       }
+
     });
   }
-
 }
